@@ -1,0 +1,14 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/manage-store-2023
+    username: postgres
+    password: 12345678
+  jpa:
+    show-sql: true
+  #liquibase Config
+  liquibase:
+    change-log: db/master.xml
+    enabled: true
