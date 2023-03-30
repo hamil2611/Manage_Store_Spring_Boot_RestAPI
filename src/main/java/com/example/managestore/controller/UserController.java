@@ -2,6 +2,7 @@ package com.example.managestore.controller;
 
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
+import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,9 +15,11 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@ControllerAdvice
 public class UserController {
     private final UserService userService;
     @PostMapping("/insert")
+    @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<UserCredential> insertNewUser(@Valid @RequestBody UserCredential userCredential){
         return ResponseEntity.ok().body(userService.insert(userCredential));
     }

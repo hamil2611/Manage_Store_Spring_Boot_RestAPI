@@ -3,6 +3,11 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <include file="db/changelog/create_table_user.xml" relativeToChangelogFile="false" />
-    <include file="db/changelog/create_table_user_role.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/150220232108_create_table_employee.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/150220232110_create_table_user.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/180220231453_create_table_user_role.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/180220231502_create_table_shirt.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/010320231759_create_table_shift.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/010320231814_add_colum_table_shift.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/290320231745_alter_table_shift.xml" relativeToChangelogFile="false" />
 </databaseChangeLog>

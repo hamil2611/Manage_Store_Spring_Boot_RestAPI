@@ -1,12 +1,11 @@
 package com.example.managestore.entity;
 
+import com.example.managestore.entity.employee.Employee;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -30,16 +29,15 @@ public class UserCredential {
     @Column(name = "password")
     private String password;
 
-    @NotNull
-    @Email()
-    @Column(name = "email")
-    private String email;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name="user-credential-roles",
             joinColumns= @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

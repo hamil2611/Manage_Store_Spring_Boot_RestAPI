@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="010320231721" author="ngdinhan">
+        <createTable tableName="shift">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_shift" type="varchar"/>
+            <column name="time_shift" type="timestamp"/>
+            <column name="note" type="varchar"/>
+
+            <column name="created_date" type="timestamp"/>
+            <column name="last_updated" type="timestamp"/>
+        </createTable>
+        <createTable tableName="employee_shift">
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shift_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="employee_shift" columnNames="shift_id, employee_id"/>
+        <addForeignKeyConstraint baseTableName="employee_shift"
+                                 baseColumnNames="employee_id"
+                                 constraintName="fk_shift_employee_id"
+                                 referencedTableName="employee"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="employee_shift"
+                                 baseColumnNames="shift_id"
+                                 constraintName="fk_employee_shift_id"
+                                 referencedTableName="shift"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

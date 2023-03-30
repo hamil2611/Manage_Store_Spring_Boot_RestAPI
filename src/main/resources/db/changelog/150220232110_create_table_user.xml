@@ -3,14 +3,19 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="310120231103" author="ngdinhan">
+    <changeSet id="150220232110" author="ngdinhan">
         <createTable tableName="user-credential">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="email" type="varchar"/>
             <column name="username" type="varchar"/>
             <column name="password" type="varchar"/>
+            <column name="employee_id" type="bigint"/>
         </createTable>
+        <addForeignKeyConstraint baseTableName="user-credential"
+                                 baseColumnNames="employee_id"
+                                 constraintName="fk_employee_id"
+                                 referencedTableName="employee"
+                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
