@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202304041441" author="ngdinhan">
+        <createTable tableName="payslip">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="total_hours" type="float"/>
+            <column name="salary" type="float"/>
+            <column name="note" type="varchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_updated" type="timestamp"/>
+            <column name="employee_id" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="payslip"
+                                 baseColumnNames="employee_id"
+                                 constraintName="fk_payslip_employee_id"
+                                 referencedTableName="employee"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

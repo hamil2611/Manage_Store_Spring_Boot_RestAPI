@@ -18,4 +18,8 @@ public class EntityExceptionController {
     public ResponseEntity<Object> exception(EntityNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(),HttpStatusCode.valueOf(400));
     }
+    @ExceptionHandler(value = RepositoryAccessException.class)
+    public ResponseEntity<Object> exception(RepositoryAccessException exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatusCode.valueOf(400));
+    }
 }

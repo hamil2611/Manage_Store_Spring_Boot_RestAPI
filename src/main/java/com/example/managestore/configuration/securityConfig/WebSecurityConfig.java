@@ -47,9 +47,10 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/employee/**").permitAll()
+                        .requestMatchers("/employee/**").hasAnyRole("OWNER","EMPLOYEE")
                         .requestMatchers("/user/**").hasRole("OWNER")
                         .requestMatchers("/schedule/**").hasRole("OWNER")
+                        .requestMatchers("/shirt/**").hasAnyRole("OWNER","EMPLOYEE")
                 )
                 .httpBasic(Customizer.withDefaults())
                 ;

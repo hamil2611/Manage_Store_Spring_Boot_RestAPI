@@ -1,9 +1,9 @@
 package com.example.managestore.service;
 
-import com.example.managestore.entity.product.clothes.Shirt;
-import com.example.managestore.entity.dto.ShirtDto;
+import com.example.managestore.entity.product.clothes.Clothes;
+import com.example.managestore.entity.dto.ClothesDto;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
-import com.example.managestore.exception.repositoryException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.ShirtRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,21 +15,21 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ShirtService {
+public class ClothesService {
     private final ShirtRepository shirtRepository;
     private final ModelMapper modelMapper;
 
-    public Shirt insert(ShirtDto shirtDto) {
+    public Clothes insert(ClothesDto clothesDto) {
         try {
-            Shirt shirtInserted = shirtRepository.save(modelMapper.map(shirtDto, Shirt.class));
-            return shirtInserted;
+            Clothes clothesInserted = shirtRepository.save(modelMapper.map(clothesDto, Clothes.class));
+            return clothesInserted;
         } catch (DataAccessException e) {
             throw new RepositoryAccessException("Unable save shirt");
         }
     }
 
-    public List<ShirtDto> getAll() {
-        return shirtRepository.findAll().stream().map(x -> modelMapper.map(x, ShirtDto.class)).collect(Collectors.toList());
+    public List<ClothesDto> getAll() {
+        return shirtRepository.findAll().stream().map(x -> modelMapper.map(x, ClothesDto.class)).collect(Collectors.toList());
     }
 
     public void delete(Long id) {
@@ -39,10 +39,10 @@ public class ShirtService {
         shirtRepository.deleteById(id);
     }
 
-    public ShirtDto update(ShirtDto shirtDto) {
-        Shirt shirt = modelMapper.map(shirtDto, Shirt.class);
+    public ClothesDto update(ClothesDto clothesDto) {
+        Clothes clothes = modelMapper.map(clothesDto, Clothes.class);
         try {
-            ShirtDto shirtUpdated = modelMapper.map(shirtRepository.save(shirt), ShirtDto.class);
+            ClothesDto shirtUpdated = modelMapper.map(shirtRepository.save(clothes), ClothesDto.class);
             return shirtUpdated;
         } catch (DataAccessException e) {
             throw new RepositoryAccessException("Unable update shirt");

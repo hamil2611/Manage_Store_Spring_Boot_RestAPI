@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202304021553" author="ngdinhan">
+        <createTable tableName="clothes_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="discount" type="float"/>
+            <column name="url_image" type="varchar"/>
+            <column name="clothes_id" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="clothes_item"
+                                 baseColumnNames="clothes_id"
+                                 constraintName="fk_clothes_item_id"
+                                 referencedTableName="clothes"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
