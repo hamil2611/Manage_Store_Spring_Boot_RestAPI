@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee{
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,4 +50,8 @@ public class Employee{
     )
     @JsonIgnore
     private Set<Shift> shifts;
+
+    public String getFullName() {
+        return this.firstName + this.lastName;
+    }
 }

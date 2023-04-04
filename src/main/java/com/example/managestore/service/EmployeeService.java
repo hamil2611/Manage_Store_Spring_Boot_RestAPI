@@ -9,6 +9,7 @@ import com.example.managestore.exception.entityException.RepositoryAccessExcepti
 import com.example.managestore.repository.EmployeeRepository;
 import com.example.managestore.repository.ShiftRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final ShiftRepository shiftRepository;
@@ -30,6 +32,7 @@ public class EmployeeService {
             Employee employeeInserted = employeeRepository.save(modelMapper.map(employeeDto, Employee.class));
             return modelMapper.map(employeeInserted, EmployeeDto.class);
         } catch (DataAccessException e) {
+            log.error("Unable save shirt");
             throw new RepositoryAccessException("Unable save shirt");
         }
     }
@@ -46,11 +49,21 @@ public class EmployeeService {
     }
 
     public EmployeeDto update(EmployeeDto employeeDto) {
-        Employee employee = modelMapper.map(employeeDto, Employee.class);
+        Employee employeeExisted = employeeRepository.findById(employeeDto.getId()).orElseThrow(()->{
+            log.error("Employee not found");
+           throw new EntityNotFoundException("Employee not found");
+        });
+        employeeExisted.setEmail(employeeDto.getEmail());
+        employeeExisted.setLastName(employeeDto.getLastName());
+        employeeExisted.setFirstName(employeeDto.getFirstName());
+        employeeExisted.setLevelSalary(employeeDto.getLevelSalary());
+        employeeExisted.setDateOfBirth(employeeDto.getDateOfBirth());
+        employeeExisted.setLastUpdated(LocalDateTime.now());
         try {
-            EmployeeDto employeeUpdated = modelMapper.map(employeeRepository.save(employee), EmployeeDto.class);
-            return employeeUpdated;
+            Employee employeeUpdated = employeeRepository.save(employeeExisted);
+            return modelMapper.map(employeeUpdated, EmployeeDto.class);
         } catch (DataAccessException e) {
+            System.out.println(e);
             throw new RepositoryAccessException("Unable update employee");
         }
     }
