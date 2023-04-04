@@ -31,7 +31,7 @@ public class Payslip {
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
