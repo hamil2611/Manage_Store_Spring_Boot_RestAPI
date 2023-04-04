@@ -19,4 +19,5 @@ public class EmployeeDto {
     private LocalDateTime createdDate;
     private LocalDateTime lastUpdated;
     private UserCredential userCredential;
+    private Float levelSalary;
 }

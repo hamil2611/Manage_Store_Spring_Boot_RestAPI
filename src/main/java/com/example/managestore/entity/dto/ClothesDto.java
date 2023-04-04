@@ -9,17 +9,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ShirtDto {
+public class ClothesDto {
+
     private Long id;
-    private String handStyle;
-    private String type;
     private String name;
+    private String type;
     private String code;
     private String color;
     private String material;
-    private String form;
     private String gender;
     private String description;
     private String size;
-    private String urlImage;
+    private Float price;
 }

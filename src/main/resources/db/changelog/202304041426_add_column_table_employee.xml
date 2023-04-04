@@ -3,9 +3,9 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="290320231747" author="ngdinhan">
-        <addColumn tableName="shift">
-            <column name="number_of_hours" type="integer"></column>
+    <changeSet id="202304041426" author="ngdinhan">
+        <addColumn tableName="employee">
+            <column name="level_salary" type="float"></column>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

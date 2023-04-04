@@ -3,7 +3,7 @@ package com.example.managestore.service;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
 import com.example.managestore.exception.entityException.EntityExistedException;
-import com.example.managestore.exception.repositoryException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.RoleRepository;
 import com.example.managestore.repository.UserCredentialRepository;
 import lombok.RequiredArgsConstructor;

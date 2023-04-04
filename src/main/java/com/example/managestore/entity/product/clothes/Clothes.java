@@ -1,24 +1,25 @@
 package com.example.managestore.entity.product.clothes;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
+@Entity
+@Table(name = "clothes")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
 public class Clothes {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column
     private String name;
+    @Column
+    private String type;
     @Column
     private String code;
     @Column
@@ -26,13 +27,14 @@ public class Clothes {
     @Column
     private String material;
     @Column
-    private String form;
-    @Column
     private String gender;
     @Column
     private String description;
     @Column
     private String size;
-    @Column(name = "url_image")
-    private String urlImage;
+    @Column
+    private Float price;
+
+    @OneToOne(mappedBy = "clothes")
+    private ClothesItem clothesItem;
 }

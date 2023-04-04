@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -41,12 +42,24 @@ public class EmployeeController {
     @PostMapping("/choose-shift")
     public ResponseEntity<List<ShiftDto>> chooseShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
                                                                  @RequestParam(value = "shiftId") Long shiftId){
-        System.out.println("CALL API CHOOSE SHIFT");
         return ResponseEntity.ok(employeeService.chooseShift(employeeId,shiftId));
     }
 
+    @PostMapping("/cancel-shift")
+    public ResponseEntity<List<ShiftDto>> cancelShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
+                                                                 @RequestParam(value = "shiftId") Long shiftId){
+        return ResponseEntity.ok(employeeService.cancelShift(employeeId, shiftId));
+    }
     @GetMapping("/all-shift/{employeeId}")
     public ResponseEntity<List<ShiftDto>> getShiftOfEmployee(@PathVariable Long employeeId){
         return ResponseEntity.ok(employeeService.getAllShiftOfEmployee(employeeId));
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<ShiftDto>> filterShift(@RequestParam(value = "employeeId") Long employeeId,
+                                                      @RequestParam(value = "startTime")LocalDateTime startTime,
+                                                      @RequestParam(value = "endTime") LocalDateTime endTime,
+                                                      @RequestParam(value = "isInTime") boolean isInTime){
+        return ResponseEntity.ok(employeeService.getShiftForTime(employeeId, startTime, endTime,isInTime));
     }
 }

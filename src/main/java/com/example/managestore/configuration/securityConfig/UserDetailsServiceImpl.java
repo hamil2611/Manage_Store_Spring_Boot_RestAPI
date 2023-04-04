@@ -2,7 +2,7 @@ package com.example.managestore.configuration.securityConfig;
 
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
-import com.example.managestore.exception.repositoryException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.UserCredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

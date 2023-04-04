@@ -3,13 +3,12 @@ package com.example.managestore.service;
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Shift;
 import com.example.managestore.exception.entityException.EntityExistedException;
-import com.example.managestore.exception.repositoryException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.ShiftRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
