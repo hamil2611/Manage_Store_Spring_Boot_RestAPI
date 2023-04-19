@@ -6,6 +6,7 @@ import com.example.managestore.exception.entityException.EntityNotFoundException
 import com.example.managestore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,30 +19,49 @@ import java.util.Set;
 @ControllerAdvice
 public class UserController {
     private final UserService userService;
+
     @PostMapping("/insert")
     @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<UserCredential> insertNewUser(@Valid @RequestBody UserCredential userCredential){
+    public ResponseEntity<UserCredential> insertNewUser(@Valid @RequestBody UserCredential userCredential) {
         return ResponseEntity.ok().body(userService.insert(userCredential));
     }
-    @PostMapping("/insert-role")
-    public ResponseEntity<Role> insertNewRole(@Valid @RequestBody Role role){
-        return ResponseEntity.ok().body(userService.insertRole(role));
+
+    @PostMapping("/create/{employeeId}")
+    public ResponseEntity<UserCredential> createNewUserForEmployee(@PathVariable(value = "employeeId") Long employeeId){
+        return ResponseEntity.ok().body(userService.createCredentialForEmployee(employeeId));
     }
-    @PostMapping("/set-role")
-    public ResponseEntity<UserCredential> setRole(@RequestParam(name = "user_id") Long user_id,
-                                               @RequestParam(name = "role_id") Long role_id){
-        return ResponseEntity.ok().body(userService.setRoleForUser(user_id,role_id));
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
     }
     @GetMapping("/get-all")
     public ResponseEntity<Page<UserCredential>> getAllUser(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                           @RequestParam(name = "size", defaultValue = "5") int size){
-        return ResponseEntity.ok().body(userService.getAll(page,size));
-    }
-    @GetMapping("/user-with_role-name")
-    public ResponseEntity<Set<UserCredential>> getAllUserWithRole(@RequestParam(name = "role_id", defaultValue = "1") Long role_id){
-        return ResponseEntity.ok().body(userService.getAllUserWithRoleId(role_id));
+                                                           @RequestParam(name = "size", defaultValue = "5") int size) {
+        return ResponseEntity.ok().body(userService.getAll(page, size));
     }
 
+    @PostMapping("/insert-role")
+    public ResponseEntity<Role> insertNewRole(@Valid @RequestBody Role role) {
+        return ResponseEntity.ok().body(userService.insertRole(role));
+    }
+
+    @PostMapping("/set-role")
+    public ResponseEntity<UserCredential> setNewRoleForUser(@RequestParam(name = "userId") Long userId,
+                                                  @RequestParam(name = "roleId") Long roleId) {
+        return ResponseEntity.ok().body(userService.setRoleForUser(userId, roleId));
+    }
+
+    @PostMapping("/cancel-role")
+    public ResponseEntity<UserCredential> cancelRole(@RequestParam(name = "userId") Long userId,
+                                                     @RequestParam(name = "roleId") Long roleId) {
+        return ResponseEntity.ok().body(userService.cancelRoleOfUser(userId, roleId));
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<Set<UserCredential>> getAllUserWithRole(@RequestParam(name = "roleId", defaultValue = "1") Long roleId) {
+        return ResponseEntity.ok().body(userService.getAllUserWithRoleId(roleId));
+    }
 
 
 }

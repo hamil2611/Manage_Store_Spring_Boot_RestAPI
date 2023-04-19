@@ -1,6 +1,6 @@
 package com.example.managestore.entity.employee;
 
-import com.example.managestore.enumApp.PayslipStatus;
+import com.example.managestore.enums.PayslipStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

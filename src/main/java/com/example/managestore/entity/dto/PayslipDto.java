@@ -1,8 +1,6 @@
 package com.example.managestore.entity.dto;
 
-import com.example.managestore.entity.employee.Employee;
-import com.example.managestore.enumApp.PayslipStatus;
-import jakarta.persistence.Column;
+import com.example.managestore.enums.PayslipStatus;
 import lombok.Getter;
 import lombok.Setter;
 

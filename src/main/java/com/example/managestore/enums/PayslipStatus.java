@@ -1,4 +1,4 @@
-package com.example.managestore.enumApp;
+package com.example.managestore.enums;
 
 public enum PayslipStatus {
     PENDING,
