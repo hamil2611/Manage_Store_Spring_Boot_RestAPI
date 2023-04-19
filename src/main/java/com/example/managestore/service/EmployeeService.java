@@ -29,6 +29,9 @@ public class EmployeeService {
 
     public EmployeeDto insert(EmployeeDto employeeDto) {
         try {
+            employeeDto.setCreatedDate(LocalDateTime.now());
+            employeeDto.setLastUpdated(LocalDateTime.now());
+            employeeDto.setEnable(false);
             Employee employeeInserted = employeeRepository.save(modelMapper.map(employeeDto, Employee.class));
             return modelMapper.map(employeeInserted, EmployeeDto.class);
         } catch (DataAccessException e) {
@@ -36,9 +39,26 @@ public class EmployeeService {
             throw new RepositoryAccessException("Unable save shirt");
         }
     }
+    public EmployeeDto getEmployee(Long employeeId){
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->{
+            log.error(String.format("Employee not found with Id = %f",employeeId));
+           throw new EntityNotFoundException(String.format("Employee not found with Id = %f",employeeId));
+        });
+        return modelMapper.map(employee,EmployeeDto.class);
+    }
+
+    public List<EmployeeDto> filterEmployee( String email, LocalDateTime startDateCreated, LocalDateTime endDateCreated, boolean enable){
+        return employeeRepository.filterEmployee(email, startDateCreated, endDateCreated, enable)
+                .stream()
+                .map(x -> modelMapper.map(x, EmployeeDto.class))
+                .collect(Collectors.toList());
+    }
 
     public List<EmployeeDto> getAll() {
-        return employeeRepository.findAll().stream().map(x -> modelMapper.map(x, EmployeeDto.class)).collect(Collectors.toList());
+        return employeeRepository.findAll()
+                .stream()
+                .map(x -> modelMapper.map(x, EmployeeDto.class))
+                .collect(Collectors.toList());
     }
 
     public void delete(Long id) {
@@ -83,7 +103,10 @@ public class EmployeeService {
         employee.setShifts(shifts);
         try{
             Employee employeeInserted = employeeRepository.save(employee);
-            return employeeInserted.getShifts().stream().map(x-> modelMapper.map(x, ShiftDto.class)).collect(Collectors.toList());
+            return employeeInserted.getShifts()
+                    .stream()
+                    .map(x-> modelMapper.map(x, ShiftDto.class))
+                    .collect(Collectors.toList());
         }catch (DataAccessException e){
             throw new RepositoryAccessException("Unable set shift for employee");
         }
@@ -95,7 +118,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
             throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist",employeeId));
         });
-        Set<Shift> shifts = employee.getShifts().stream().filter(x -> !x.getId().equals(shiftId)).collect(Collectors.toSet());
+        Set<Shift> shifts = employee.getShifts()
+                .stream()
+                .filter(x -> !x.getId().equals(shiftId))
+                .collect(Collectors.toSet());
         employee.setShifts(shifts);
         try{
             employeeRepository.save(employee);
@@ -109,7 +135,10 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
             throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist",employeeId));
         });
-        return employee.getShifts().stream().map(x->modelMapper.map(x,ShiftDto.class)).collect(Collectors.toList());
+        return employee.getShifts()
+                .stream()
+                .map(x->modelMapper.map(x,ShiftDto.class))
+                .collect(Collectors.toList());
     }
 
     public List<ShiftDto> getShiftForTime(Long employeeId, LocalDateTime startTime, LocalDateTime endTime, boolean isInTime){

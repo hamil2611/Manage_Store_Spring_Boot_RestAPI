@@ -28,6 +28,11 @@ public class EmployeeController {
         return ResponseEntity.ok().body(employeeService.getAll());
     }
 
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable(value = "employeeId") Long employeeId){
+        return ResponseEntity.ok().body(employeeService.getEmployee(employeeId));
+    }
+
     @PutMapping("/update")
     public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody @Valid EmployeeDto employeeDto){
         return ResponseEntity.ok().body(employeeService.update(employeeDto));
@@ -55,11 +60,20 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllShiftOfEmployee(employeeId));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ShiftDto>> filterShift(@RequestParam(value = "employeeId") Long employeeId,
-                                                      @RequestParam(value = "startTime")LocalDateTime startTime,
-                                                      @RequestParam(value = "endTime") LocalDateTime endTime,
-                                                      @RequestParam(value = "isInTime") boolean isInTime){
+    @GetMapping("/filter-shift")
+    public ResponseEntity<List<ShiftDto>> filterShift(@RequestParam(value = "employeeId", required = false) Long employeeId,
+                                                      @RequestParam(value = "startTime", required = false)LocalDateTime startTime,
+                                                      @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
+                                                      @RequestParam(value = "isInTime", required = false) boolean isInTime){
         return ResponseEntity.ok(employeeService.getShiftForTime(employeeId, startTime, endTime,isInTime));
+    }
+
+    @GetMapping("/filter-employee")
+    public ResponseEntity<List<EmployeeDto>> filterEmployeeALL(@RequestParam(value = "email", required = false) String email,
+                                                            @RequestParam(value = "startDateCreated", required = false) LocalDateTime startDateCreated,
+                                                            @RequestParam(value = "endDateCreated", required = false) LocalDateTime endDateCreated,
+                                                            @RequestParam(value = "enable", required = false) boolean enable){
+        System.out.println("CALLED API");
+        return ResponseEntity.ok(employeeService.filterEmployee(email, startDateCreated, endDateCreated, enable));
     }
 }
