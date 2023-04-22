@@ -25,12 +25,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
                                          @Param(value = "isInTime") boolean isInTime);
     @Query(value = "SELECT e " +
             "FROM Employee e " +
-            "WHERE (:enable IS NULL AND e.email like CONCAT('%',:email,'%') AND :startDateCreated IS NULL AND :endDateCreated IS NULL) " +
-            "OR (:enable = TRUE AND e.enable = TRUE AND e.email like CONCAT('%',:email,'%') AND :startDateCreated IS NULL AND :endDateCreated IS NULL) " +
-            "OR (:enable = FALSE AND e.enable = FALSE AND e.email like CONCAT('%',:email,'%') AND :startDateCreated IS NULL AND :endDateCreated IS NULL) "
-//            "OR (:enable IS NULL AND :email IS NULL AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated)) " +
-//            "OR (:enable = TRUE AND e.enable = TRUE AND :email IS NULL AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated)) " +
-//            "OR (:enable = FALSE AND e.enable = FALSE AND :email IS NULL AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated)) "
+            "WHERE (:enable IS NULL AND e.email like CONCAT('%',:email,'%') AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated)) " +
+            "OR (:enable = TRUE AND e.enable = TRUE AND e.email like CONCAT('%',:email,'%') AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated)) " +
+            "OR (:enable = FALSE AND e.enable = FALSE AND e.email like CONCAT('%',:email,'%') AND (e.createdDate BETWEEN :startDateCreated AND :endDateCreated))"
     )
     List<Employee> filterEmployee(@Param(value = "email") String email,
                                   @Param(value = "startDateCreated") LocalDateTime startDateCreated,

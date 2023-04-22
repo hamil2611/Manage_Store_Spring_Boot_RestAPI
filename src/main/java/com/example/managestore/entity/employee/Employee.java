@@ -56,6 +56,6 @@ public class Employee {
     }
 
     public String getUsernameForEmployee(){
-        return this.firstName.toLowerCase().concat(".").concat(this.lastName.toLowerCase());
+        return this.firstName.toLowerCase().concat(".").concat(this.lastName.toLowerCase().replaceAll(" ",""));
     }
 }

@@ -1,14 +1,15 @@
-package com.example.managestore.entity.product.clothes;
+package com.example.managestore.entity.product.shoes;
 
 import com.example.managestore.entity.order.Order;
+import com.example.managestore.entity.product.clothes.Clothes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
-@Table(name = "clothes_item")
-public class ClothesItem {
+@Table(name="shoes_item")
+public class ShoesItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,11 +19,9 @@ public class ClothesItem {
     private String urlImage;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "clothes_id")
-    private Clothes clothes;
+    @JoinColumn(name = "shoes_id")
+    private Shoes shoes;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "clothesItems")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "shoesItems")
     @JsonIgnore
-    private Set<Order> orders;
-
-}
+    private Set<Order> orders;}

@@ -1,4 +1,5 @@
-package com.example.managestore.entity.product.clothes;
+package com.example.managestore.entity.product.shoes;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,12 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "clothes")
+@Table(name = "shoes")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Clothes {
+@AllArgsConstructor
+public class Shoes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,16 +26,14 @@ public class Clothes {
     @Column
     private String color;
     @Column
-    private String material;
-    @Column
-    private String gender;
-    @Column
     private String description;
     @Column
     private String size;
     @Column
+    private String brand;
+    @Column
     private Float price;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "clothes")
-    private ClothesItem clothesItem;
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "shoes")
+    private ShoesItem shoesItem;
 }

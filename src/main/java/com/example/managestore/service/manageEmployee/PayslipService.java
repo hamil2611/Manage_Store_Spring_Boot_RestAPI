@@ -1,4 +1,4 @@
-package com.example.managestore.service;
+package com.example.managestore.service.manageEmployee;
 
 import com.example.managestore.entity.dto.PayslipDto;
 import com.example.managestore.entity.employee.Employee;

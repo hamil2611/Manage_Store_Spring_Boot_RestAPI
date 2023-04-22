@@ -3,7 +3,7 @@ package com.example.managestore.controller;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
-import com.example.managestore.service.UserService;
+import com.example.managestore.service.manageEmployee.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;

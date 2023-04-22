@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -22,6 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserCredentialRepository userCredentialRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //TODO: Rework message when username not found
         UserCredential userCredential = userCredentialRepository.findByUsername(username).orElseThrow(()->{
             throw new RepositoryAccessException("");
         });

@@ -1,8 +1,9 @@
-package com.example.managestore.service;
+package com.example.managestore.service.manageEmployee;
 
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
 import com.example.managestore.entity.employee.Employee;
+import com.example.managestore.exception.entityException.EmployeeNoActiveException;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
@@ -55,6 +56,14 @@ public class UserService {
             log.debug(String.format("Not found Employee with Id = %f", employeeId));
             throw new EntityNotFoundException(String.format("Not found Employee with Id = %f", employeeId));
         });
+        if(!employee.isEnable()){
+            log.debug("Employee enable is false");
+            throw new EmployeeNoActiveException("Employee has not been activated or deleted");
+        }
+        if (userCredentialRepository.existsByEmployeeId(employeeId)){
+            log.debug("Employee have been created UserCredential");
+            throw new EmployeeNoActiveException("Employee have been created UserCredential");
+        }
         String username = employee.getUsernameForEmployee();
         Integer cnt = userCredentialRepository.countUserContainUsername(username);
         if(cnt!=0)
@@ -62,6 +71,7 @@ public class UserService {
         UserCredential userCredential = new UserCredential();
         userCredential.setUsername(username);
         userCredential.setPassword(passwordEncoder.encode("123456789"));
+        userCredential.setEmployee(employee);
         try {
             return userCredentialRepository.save(userCredential);
         }catch (DataAccessException e){

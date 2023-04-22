@@ -2,7 +2,7 @@ package com.example.managestore.controller;
 
 import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.dto.ClothesDto;
-import com.example.managestore.service.ClothesService;
+import com.example.managestore.service.manageProduct.ClothesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

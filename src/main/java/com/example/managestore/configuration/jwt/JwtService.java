@@ -64,7 +64,6 @@ public class JwtService {
     }
 
     public Authentication getAuthentication(String token) {
-        System.out.println("get authentication");
         DefaultJwtParser defaultJwtParser = new DefaultJwtParser();
         try{
             Claims claims = defaultJwtParser.setSigningKey("123456789").parseClaimsJws(token).getBody();

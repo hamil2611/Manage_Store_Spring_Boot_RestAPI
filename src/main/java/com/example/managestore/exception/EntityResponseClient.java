@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseClient {
+public class EntityResponseClient {
     private String application;
     private String reason;
     private String message;

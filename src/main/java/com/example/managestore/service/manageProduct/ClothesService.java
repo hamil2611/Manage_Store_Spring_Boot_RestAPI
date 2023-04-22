@@ -1,4 +1,4 @@
-package com.example.managestore.service;
+package com.example.managestore.service.manageProduct;
 
 import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.dto.ClothesDto;
@@ -6,6 +6,7 @@ import com.example.managestore.exception.entityException.EntityNotFoundException
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.ShirtRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ClothesService {
     private final ShirtRepository shirtRepository;
     private final ModelMapper modelMapper;

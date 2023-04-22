@@ -1,7 +1,7 @@
 package com.example.managestore.controller;
 
 import com.example.managestore.entity.dto.PayslipDto;
-import com.example.managestore.service.PayslipService;
+import com.example.managestore.service.manageEmployee.PayslipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

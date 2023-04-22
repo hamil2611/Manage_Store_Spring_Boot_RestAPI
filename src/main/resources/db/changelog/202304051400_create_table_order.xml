@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202304051400" author="ngdinhan">
+        <createTable tableName="order">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="total_product" type="integer"/>
+            <column name="total_price" type="float"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="status" type="varchar"/>
+            <column name="customer_id" type="bigint"/>
+        </createTable>
+        <createTable tableName="order_shoes_item">
+            <column name="order_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shoes_item_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="order_clothes_item">
+            <column name="order_id"  type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="clothes_item_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="order_shoes_item"
+                                 baseColumnNames="shoes_item_id"
+                                 constraintName="fk_order_shoes_item_id"
+                                 referencedTableName="shoes"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_shoes_item"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_shoes_item_order_id"
+                                 referencedTableName="order"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_clothes_item"
+                                 baseColumnNames="clothes_item_id"
+                                 constraintName="fk_order_clothes_item_id"
+                                 referencedTableName="clothes"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_clothes_item"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_clothes_item_order_id"
+                                 referencedTableName="order"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order"
+                                 baseColumnNames="customer_id"
+                                 constraintName="fk_order_customer_id"
+                                 referencedTableName="customer"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

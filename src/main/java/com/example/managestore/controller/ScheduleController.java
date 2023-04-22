@@ -1,7 +1,7 @@
 package com.example.managestore.controller;
 
 import com.example.managestore.entity.dto.ShiftDto;
-import com.example.managestore.service.ScheduleService;
+import com.example.managestore.service.manageEmployee.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
