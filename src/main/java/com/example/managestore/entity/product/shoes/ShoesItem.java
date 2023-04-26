@@ -22,6 +22,6 @@ public class ShoesItem {
     @JoinColumn(name = "shoes_id")
     private Shoes shoes;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "shoesItems")
+    @ManyToMany(cascade ={CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH},mappedBy = "shoesItems")
     @JsonIgnore
     private Set<Order> orders;}

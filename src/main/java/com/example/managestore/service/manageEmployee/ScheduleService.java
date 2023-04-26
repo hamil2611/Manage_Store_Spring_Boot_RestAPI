@@ -4,7 +4,7 @@ import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Shift;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
-import com.example.managestore.repository.ShiftRepository;
+import com.example.managestore.repository.manageEmployee.ShiftRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;

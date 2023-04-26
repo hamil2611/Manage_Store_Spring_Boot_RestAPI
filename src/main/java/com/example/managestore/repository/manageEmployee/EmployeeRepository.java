@@ -1,4 +1,4 @@
-package com.example.managestore.repository;
+package com.example.managestore.repository.manageEmployee;
 
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Employee;

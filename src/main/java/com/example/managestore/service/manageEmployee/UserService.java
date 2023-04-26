@@ -7,14 +7,12 @@ import com.example.managestore.exception.entityException.EmployeeNoActiveExcepti
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
-import com.example.managestore.repository.EmployeeRepository;
-import com.example.managestore.repository.RoleRepository;
-import com.example.managestore.repository.UserCredentialRepository;
+import com.example.managestore.repository.manageEmployee.EmployeeRepository;
+import com.example.managestore.repository.manageEmployee.RoleRepository;
+import com.example.managestore.repository.manageEmployee.UserCredentialRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Getter
@@ -20,12 +18,11 @@ public class UserCredential {
     @Column(name = "id")
     private Long id;
 
-    @NotEmpty
-    @Size(max = 20)
+
     @Column(name = "username")
     private String username;
 
-    @NotEmpty
+
     @Column(name = "password")
     private String password;
 

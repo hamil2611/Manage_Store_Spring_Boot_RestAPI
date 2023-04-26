@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PayslipDto {
+
     private Long id;
     private Float totalHours;
     private Float salary;
