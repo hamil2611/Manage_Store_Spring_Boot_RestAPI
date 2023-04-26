@@ -1,4 +1,4 @@
-package com.example.managestore.repository;
+package com.example.managestore.repository.manageEmployee;
 
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Employee;
@@ -6,11 +6,13 @@ import com.example.managestore.entity.employee.Shift;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     boolean existsById(@Param(value = "employeeId") Long employeeId);
 

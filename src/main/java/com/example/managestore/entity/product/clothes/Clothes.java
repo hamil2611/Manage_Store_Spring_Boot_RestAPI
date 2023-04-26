@@ -1,5 +1,7 @@
 package com.example.managestore.entity.product.clothes;
 
+import com.example.managestore.entity.product.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +37,11 @@ public class Clothes {
     @Column
     private Float price;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "clothes")
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "clothes")
+    @JsonIgnore
     private ClothesItem clothesItem;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

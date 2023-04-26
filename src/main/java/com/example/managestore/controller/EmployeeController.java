@@ -3,12 +3,13 @@ package com.example.managestore.controller;
 import com.example.managestore.entity.dto.EmployeeDto;
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.service.manageEmployee.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,14 @@ public class EmployeeController {
 
     @GetMapping("/get-all")
     public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
-        return ResponseEntity.ok().body(employeeService.getAll());
+        List<EmployeeDto> employeeDtos = employeeService.getAll();
+        System.out.println("OK");
+        try{
+            return ResponseEntity.ok().body(employeeDtos);
+        }catch (IllegalStateException e){
+            System.out.println(e);
+        }
+        return null;
     }
 
     @GetMapping("/{employeeId}")

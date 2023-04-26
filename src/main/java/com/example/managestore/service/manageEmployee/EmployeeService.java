@@ -6,8 +6,8 @@ import com.example.managestore.entity.dto.EmployeeDto;
 import com.example.managestore.entity.employee.Shift;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
-import com.example.managestore.repository.EmployeeRepository;
-import com.example.managestore.repository.ShiftRepository;
+import com.example.managestore.repository.manageEmployee.EmployeeRepository;
+import com.example.managestore.repository.manageEmployee.ShiftRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -68,10 +68,12 @@ public class EmployeeService {
             return Boolean.parseBoolean(null);
     }
     public List<EmployeeDto> getAll() {
-        return employeeRepository.findAll()
+        List<EmployeeDto> employeeDtos = employeeRepository.findAll()
                 .stream()
                 .map(x -> modelMapper.map(x, EmployeeDto.class))
                 .collect(Collectors.toList());
+        System.out.println("CALLED");
+        return employeeDtos;
     }
 
     public EmployeeDto activate(Long employeeId) {

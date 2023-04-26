@@ -3,20 +3,14 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="180220231526" author="ngdinhan">
-        <createTable tableName="clothes">
+    <changeSet id="202304050800" author="ngdinhan">
+        <createTable tableName="category">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="type" type="varchar"/>
             <column name="name" type="varchar"/>
-            <column name="code" type="varchar"/>
-            <column name="color" type="varchar"/>
-            <column name="material" type="varchar"/>
-            <column name="gender" type="varchar"/>
-            <column name="size" type="varchar"/>
-            <column name="description" type="varchar"/>
-            <column name="price" type="float"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_updated" type="timestamp"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

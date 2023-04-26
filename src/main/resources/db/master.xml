@@ -6,14 +6,16 @@
     <include file="db/changelog/202303151415_create_table_employee.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202303151435_create_table_user.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202303151500_create_table_role.xml" relativeToChangelogFile="false" />
-    <include file="db/changelog/202303161345_create_table_clothes.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202303171315_create_table_shift.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202303171430_add_colum_table_shift.xml" relativeToChangelogFile="false" />
-    <include file="db/changelog/202304021553_create_table_clothes_item.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304041426_add_column_table_employee.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304041441_create_table_payslip.xml" relativeToChangelogFile="false" />
+    <include file="/db/changelog/202304050800_create_table_category.xml" relativeToChangelogFile="false" />
+    <include file="/db/changelog/202304051020_create_table_clothes.xml" relativeToChangelogFile="false" />
+    <include file="/db/changelog/202304051100_create_table_clothes_item.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304051232_create_table_shoes.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304051313_create_table_shoes_item.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304051330_create_table_customer.xml" relativeToChangelogFile="false" />
     <include file="db/changelog/202304051400_create_table_order.xml" relativeToChangelogFile="false" />
+    <include file="db/changelog/202304051500_create_table_bill.xml" relativeToChangelogFile="false" />
 </databaseChangeLog>

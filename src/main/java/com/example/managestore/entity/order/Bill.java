@@ -19,13 +19,13 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "total_price")
     private Float totalPrice;
-    @Column
+    @Column(name = "money_received")
     private Float moneyReceived;
-    @Column
+    @Column(name = "refunds")
     private Float refunds;
-    @Column
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @OneToOne

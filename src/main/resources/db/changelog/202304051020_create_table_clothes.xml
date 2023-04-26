@@ -3,8 +3,8 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="202304051233" author="ngdinhan">
-        <createTable tableName="shoes">
+    <changeSet id="202304051020" author="ngdinhan">
+        <createTable tableName="clothes">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -12,15 +12,16 @@
             <column name="name" type="varchar"/>
             <column name="code" type="varchar"/>
             <column name="color" type="varchar"/>
-            <column name="brand" type="varchar"/>
+            <column name="material" type="varchar"/>
+            <column name="gender" type="varchar"/>
             <column name="size" type="varchar"/>
             <column name="description" type="varchar"/>
             <column name="price" type="float"/>
             <column name="category_id" type="bigint"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="shoes"
+        <addForeignKeyConstraint baseTableName="clothes"
                                  baseColumnNames="category_id"
-                                 constraintName="fk_shoes_category_id"
+                                 constraintName="fk_clothes_category_id"
                                  referencedTableName="category"
                                  referencedColumnNames="id"/>
     </changeSet>

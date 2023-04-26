@@ -7,8 +7,8 @@ import com.example.managestore.entity.employee.Shift;
 import com.example.managestore.enums.PayslipStatus;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
-import com.example.managestore.repository.EmployeeRepository;
-import com.example.managestore.repository.PayslipRepository;
+import com.example.managestore.repository.manageEmployee.EmployeeRepository;
+import com.example.managestore.repository.manageEmployee.PayslipRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -36,7 +36,6 @@ public class PayslipService {
            throw new EntityNotFoundException(String.format("Employee not found with id = %f",employeeId));
         });
         Float totalHours = Float.valueOf(0);
-
         for (Shift shift : employee.getShifts()
                 .stream()
                 .filter(x -> x.getTimeShift().isAfter(startTime) && x.getTimeShift().isBefore(endTime))

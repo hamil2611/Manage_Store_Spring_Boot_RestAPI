@@ -1,4 +1,4 @@
-package com.example.managestore.repository;
+package com.example.managestore.repository.manageEmployee;
 
 import com.example.managestore.entity.UserCredential;
 import org.springframework.data.domain.Page;

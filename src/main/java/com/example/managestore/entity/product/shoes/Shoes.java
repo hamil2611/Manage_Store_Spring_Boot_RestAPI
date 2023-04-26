@@ -1,6 +1,7 @@
 package com.example.managestore.entity.product.shoes;
 
 
+import com.example.managestore.entity.product.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +37,9 @@ public class Shoes {
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "shoes")
     private ShoesItem shoesItem;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 }
