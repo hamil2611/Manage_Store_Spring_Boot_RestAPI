@@ -4,7 +4,6 @@ import com.example.managestore.entity.dto.OrderDto;
 import com.example.managestore.entity.order.*;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
-import com.example.managestore.enums.OrderStatus;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageProduct.*;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,8 +30,8 @@ public class OrderService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public Order createOder(OrderDto orderDto){
-        Order order = new Order();
+    public Orders createOrder(OrderDto orderDto){
+        Orders order = new Orders();
         List<OrderItem> orderItems = orderDto.getOrderItems();
         Float totalPrice = (float) 0L;
         int totalProduct = 0;
@@ -65,6 +63,10 @@ public class OrderService {
         Customer customer = customerRepository.findById(2L).orElseThrow(()->{
             throw new EntityNotFoundException("");
         });
+//        if(!CollectionUtils.isEmpty(listOrderClothes))
+//            orderClothesRepository.saveAll(listOrderClothes);
+//        if(!CollectionUtils.isEmpty(listOrderShoes))
+//            orderShoesRepository.saveAll(listOrderShoes);
         order.setCreatedDate(LocalDateTime.now());
         order.setStatus("UNPAID");
         order.setTotalPrice(totalPrice);
@@ -75,7 +77,11 @@ public class OrderService {
         System.out.println("TOTAL PRICE: " + order.getTotalPrice());
         System.out.println("TOTAL PRODUCT: "+ order.getTotalProduct());
         try{
-            orderRepository.save(order);
+            Orders orderSaved = orderRepository.save(order);
+            listOrderShoes.forEach( x -> x.setOrder(orderSaved));
+            orderShoesRepository.saveAll(listOrderShoes);
+            listOrderClothes.forEach(x -> x.setOrder(orderSaved));
+            orderClothesRepository.saveAll(listOrderClothes);
         }catch (DataAccessException e){
             System.out.println("MESSAGE "+e);
             throw new RepositoryAccessException("Unable save");

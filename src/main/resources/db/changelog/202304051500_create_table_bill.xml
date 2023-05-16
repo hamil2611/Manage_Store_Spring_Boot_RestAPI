@@ -3,7 +3,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="2023040051504" author="ngdinhan">
+    <changeSet id="2023040051505" author="ngdinhan">
         <createTable tableName="bill">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -18,7 +18,7 @@
                 baseTableName="bill"
                 baseColumnNames="order_id"
                 constraintName="fk_bill_order_id"
-                referencedTableName="order"
+                referencedTableName="orders"
                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

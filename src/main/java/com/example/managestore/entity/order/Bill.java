@@ -30,5 +30,5 @@ public class Bill {
 
     @OneToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
 }

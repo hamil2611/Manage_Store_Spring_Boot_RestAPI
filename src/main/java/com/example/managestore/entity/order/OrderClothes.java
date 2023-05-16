@@ -1,6 +1,5 @@
 package com.example.managestore.entity.order;
 
-import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,19 +8,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "oder_clothes")
+@Table(name = "order_clothes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderClothes {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
 
     @ManyToOne
     @JoinColumn(name= "clothes_item_id")

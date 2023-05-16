@@ -34,6 +34,6 @@ public class Customer {
     private LocalDateTime createdDate;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "customer")
-    private Set<Order> orders;
+    private Set<Orders> orders;
 
 }

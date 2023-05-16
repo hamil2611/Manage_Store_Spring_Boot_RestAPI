@@ -1,15 +1,12 @@
 package com.example.managestore.entity.product.clothes;
 
 import com.example.managestore.entity.dto.ClothesItemDto;
-import com.example.managestore.entity.order.Order;
 import com.example.managestore.entity.order.OrderClothes;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "clothes_item")

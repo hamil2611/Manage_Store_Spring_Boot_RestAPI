@@ -2,7 +2,7 @@ package com.example.managestore.controller;
 
 import com.example.managestore.entity.dto.CategoryDto;
 import com.example.managestore.entity.dto.OrderDto;
-import com.example.managestore.entity.order.Order;
+import com.example.managestore.entity.order.Orders;
 import com.example.managestore.service.manageProduct.CategoryService;
 import com.example.managestore.service.manageProduct.OrderService;
 import jakarta.validation.Valid;
@@ -28,8 +28,8 @@ public class CategoryController {
     private final OrderService orderService;
 
     @PostMapping("/create")
-    public ResponseEntity<Order> insert(@RequestBody @Valid OrderDto orderDto){
+    public ResponseEntity<Orders> insert(@RequestBody @Valid OrderDto orderDto){
         System.out.println("CALLED");
-        return ResponseEntity.ok().body(orderService.createOder(orderDto));
+        return ResponseEntity.ok().body(orderService.createOrder(orderDto));
     }
 }

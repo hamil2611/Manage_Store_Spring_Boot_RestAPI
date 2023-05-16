@@ -3,8 +3,8 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="202304051404" author="ngdinhan">
-        <createTable tableName="order">
+    <changeSet id="202304051405" author="ngdinhan">
+        <createTable tableName="orders">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -38,8 +38,9 @@
         <addForeignKeyConstraint baseTableName="order_shoes"
                                  baseColumnNames="order_id"
                                  constraintName="fk_shoes_item_order_id"
-                                 referencedTableName="order"
+                                 referencedTableName="orders"
                                  referencedColumnNames="id"/>
+
         <addForeignKeyConstraint baseTableName="order_clothes"
                                  baseColumnNames="clothes_item_id"
                                  constraintName="fk_order_clothes_item_id"
@@ -48,9 +49,9 @@
         <addForeignKeyConstraint baseTableName="order_clothes"
                                  baseColumnNames="order_id"
                                  constraintName="fk_clothes_item_order_id"
-                                 referencedTableName="order"
+                                 referencedTableName="orders"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="order"
+        <addForeignKeyConstraint baseTableName="orders"
                                  baseColumnNames="customer_id"
                                  constraintName="fk_order_customer_id"
                                  referencedTableName="customer"

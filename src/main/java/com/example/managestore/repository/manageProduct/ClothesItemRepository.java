@@ -21,5 +21,5 @@ public interface ClothesItemRepository extends JpaRepository<ClothesItem, Long> 
     @Query(value = "SELECT c.* FROM clothes_item c WHERE c.id = :Id", nativeQuery = true)
     Optional<ClothesItem> findById(@Param(value = "Id") Long Id);
 
-    List<ClothesItem> findByIdIgnoreCaseIn(List<Long> listId);
+   // List<ClothesItem> findByIdIgnoreCaseIn(List<Long> listId);
 }
