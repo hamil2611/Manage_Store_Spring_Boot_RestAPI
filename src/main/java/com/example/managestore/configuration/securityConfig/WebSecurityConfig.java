@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/category/**").hasRole("OWNER")
                         .requestMatchers("/clothes/**").hasAnyRole("OWNER","EMPLOYEE")
                         .requestMatchers("/shoes/**").hasAnyRole("OWNER","EMPLOYEE")
-                        .requestMatchers("/order/**").hasAnyRole("OWNER","EMPLOYEE")
+                        .requestMatchers("/orders/**").hasAnyRole("OWNER","EMPLOYEE")
                         .requestMatchers("/payslip/**").hasAnyRole("OWNER","EMPLOYEE")
                 )
                 .httpBasic(Customizer.withDefaults())

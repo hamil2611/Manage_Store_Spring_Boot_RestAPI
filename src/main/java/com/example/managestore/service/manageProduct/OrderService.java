@@ -63,19 +63,11 @@ public class OrderService {
         Customer customer = customerRepository.findById(2L).orElseThrow(()->{
             throw new EntityNotFoundException("");
         });
-//        if(!CollectionUtils.isEmpty(listOrderClothes))
-//            orderClothesRepository.saveAll(listOrderClothes);
-//        if(!CollectionUtils.isEmpty(listOrderShoes))
-//            orderShoesRepository.saveAll(listOrderShoes);
         order.setCreatedDate(LocalDateTime.now());
         order.setStatus("UNPAID");
         order.setTotalPrice(totalPrice);
         order.setTotalProduct(totalProduct);
         order.setCustomer(customer);
-//        order.setOrderClothes(listOrderClothes);
-//        order.setOrderShoes(listOrderShoes);
-        System.out.println("TOTAL PRICE: " + order.getTotalPrice());
-        System.out.println("TOTAL PRODUCT: "+ order.getTotalProduct());
         try{
             Orders orderSaved = orderRepository.save(order);
             listOrderShoes.forEach( x -> x.setOrder(orderSaved));

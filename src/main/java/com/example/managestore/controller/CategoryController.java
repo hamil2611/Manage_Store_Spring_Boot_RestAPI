@@ -7,11 +7,11 @@ import com.example.managestore.service.manageProduct.CategoryService;
 import com.example.managestore.service.manageProduct.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -21,15 +21,23 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/insert")
-    public ResponseEntity<CategoryDto> insertCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> insertCategory(@RequestBody CategoryDto categoryDto) {
         return ResponseEntity.ok().body(categoryService.insert(categoryDto));
     }
 
-    private final OrderService orderService;
+    @GetMapping("/get-all")
+    public ResponseEntity<List<CategoryDto>> getAllCategory() {
+        return ResponseEntity.ok().body(categoryService.getAll());
+    }
 
-    @PostMapping("/create")
-    public ResponseEntity<Orders> insert(@RequestBody @Valid OrderDto orderDto){
-        System.out.println("CALLED");
-        return ResponseEntity.ok().body(orderService.createOrder(orderDto));
+    @PutMapping("/update")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
+        return ResponseEntity.ok().body(categoryService.update(categoryDto));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") Long id) {
+        categoryService.delete(id);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
     }
 }
