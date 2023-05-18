@@ -2,6 +2,7 @@ package com.example.managestore.entity.order;
 
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
+import com.example.managestore.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class Orders {
     @Column
     private LocalDateTime createdDate;
     @Column
-    private String status;
+    private OrderStatus status;
 
 
     @ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH}, fetch = FetchType.LAZY)

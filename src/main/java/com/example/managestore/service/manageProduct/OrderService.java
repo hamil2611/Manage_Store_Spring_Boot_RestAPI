@@ -1,9 +1,11 @@
 package com.example.managestore.service.manageProduct;
 
+import com.example.managestore.entity.dto.CustomerDto;
 import com.example.managestore.entity.dto.OrderDto;
 import com.example.managestore.entity.order.*;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
+import com.example.managestore.enums.OrderStatus;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageProduct.*;
@@ -40,7 +42,7 @@ public class OrderService {
         for(OrderItem oi :orderItems){
             if (oi.getCategoryId() == 1){
                 ClothesItem clothesItem = clothesItemRepository.findById(oi.getProductId()).orElseThrow(() ->{
-                   throw new EntityNotFoundException("");
+                   throw new EntityNotFoundException(String.format("Clothes with id=%f not found", oi.getCategoryId()));
                 });
                 OrderClothes orderClothes = new OrderClothes();
                 orderClothes.setClothesItem(clothesItem);
@@ -50,7 +52,7 @@ public class OrderService {
             }
             else{
                 ShoesItem shoesItem = shoesItemRepository.findById(oi.getProductId()).orElseThrow(()->{
-                   throw new EntityNotFoundException("");
+                   throw new EntityNotFoundException(String.format("Shoes with id=%f not found", oi.getCategoryId()));
                 });
                 OrderShoes orderShoes = new OrderShoes();
                 orderShoes.setShoesItem(shoesItem);
@@ -60,15 +62,13 @@ public class OrderService {
             }
             totalProduct+=oi.getQuantity();
         }
-        Customer customer = customerRepository.findById(2L).orElseThrow(()->{
-            throw new EntityNotFoundException("");
-        });
-        order.setCreatedDate(LocalDateTime.now());
-        order.setStatus("UNPAID");
-        order.setTotalPrice(totalPrice);
-        order.setTotalProduct(totalProduct);
-        order.setCustomer(customer);
         try{
+            Customer customerInserted = customerRepository.save(orderDto.getCustomer());
+            order.setCreatedDate(LocalDateTime.now());
+            order.setStatus(OrderStatus.UNPAID);
+            order.setTotalPrice(totalPrice);
+            order.setTotalProduct(totalProduct);
+            order.setCustomer(customerInserted);
             Orders orderSaved = orderRepository.save(order);
             listOrderShoes.forEach( x -> x.setOrder(orderSaved));
             orderShoesRepository.saveAll(listOrderShoes);
@@ -80,5 +80,4 @@ public class OrderService {
         }
         return order;
     }
-
 }

@@ -28,5 +28,7 @@ public class OrderDto {
 
     @JsonProperty(value = "status")
     private OrderStatus status;
+
+    private Customer customer;
 }
 
