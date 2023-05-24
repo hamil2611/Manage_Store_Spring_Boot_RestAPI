@@ -26,8 +26,8 @@ public class EntityExceptionController {
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<Object> exception(EntityNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatusCode.valueOf(400));
+    public ResponseEntity<EntityResponseClient> exception(EntityNotFoundException exception) {
+        return ResponseEntity.badRequest().body(new EntityResponseClient(APPLICATION, ENTITY_EXISTED, exception.getMessage()));
     }
 
     @ExceptionHandler(value = RepositoryAccessException.class)

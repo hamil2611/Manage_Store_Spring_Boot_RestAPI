@@ -1,7 +1,7 @@
 package com.example.managestore.service.manageProduct;
 
 import com.example.managestore.entity.dto.CustomerDto;
-import com.example.managestore.entity.dto.OrderDto;
+import com.example.managestore.entity.dto.OrderItemDto;
 import com.example.managestore.entity.order.*;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
@@ -11,7 +11,10 @@ import com.example.managestore.exception.entityException.RepositoryAccessExcepti
 import com.example.managestore.repository.manageProduct.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +33,11 @@ public class OrderService {
     private final ClothesItemRepository clothesItemRepository;
     private final ShoesItemRepository shoesItemRepository;
     private final CustomerRepository customerRepository;
-
+    private final ModelMapper modelMapper;
     @Transactional
-    public Orders createOrder(OrderDto orderDto){
+    public Orders createOrder(OrderItemDto orderItemDto){
         Orders order = new Orders();
-        List<OrderItem> orderItems = orderDto.getOrderItems();
+        List<OrderItem> orderItems = orderItemDto.getOrderItems();
         Float totalPrice = (float) 0L;
         int totalProduct = 0;
         List<OrderShoes> listOrderShoes = new ArrayList<>();
@@ -63,7 +66,7 @@ public class OrderService {
             totalProduct+=oi.getQuantity();
         }
         try{
-            Customer customerInserted = customerRepository.save(orderDto.getCustomer());
+            Customer customerInserted = customerRepository.save(orderItemDto.getCustomer());
             order.setCreatedDate(LocalDateTime.now());
             order.setStatus(OrderStatus.UNPAID);
             order.setTotalPrice(totalPrice);
@@ -79,5 +82,17 @@ public class OrderService {
             throw new RepositoryAccessException("Unable save");
         }
         return order;
+    }
+
+    public CustomerDto getCustomer(Long customerId){
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> {
+            throw new EntityNotFoundException(String.format("Customer with id=%d not found",customerId));
+        });
+        return modelMapper.map(customer,CustomerDto.class);
+    }
+
+    public Page<CustomerDto> getAllCustomerPaging(int page, int size){
+        Page<Customer> customers = customerRepository.findAll(PageRequest.of(page,size));
+        return customers.map(customer -> modelMapper.map(customer,CustomerDto.class));
     }
 }

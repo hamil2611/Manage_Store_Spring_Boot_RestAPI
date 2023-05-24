@@ -22,7 +22,6 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/insert")
-    @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<UserCredential> insertNewUser(@Valid @RequestBody UserCredential userCredential) {
         return ResponseEntity.ok().body(userService.insert(userCredential));
     }

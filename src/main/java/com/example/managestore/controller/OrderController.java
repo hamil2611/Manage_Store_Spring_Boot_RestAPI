@@ -1,8 +1,7 @@
 package com.example.managestore.controller;
 
-import com.example.managestore.entity.dto.OrderDto;
+import com.example.managestore.entity.dto.OrderItemDto;
 import com.example.managestore.entity.order.Orders;
-import com.example.managestore.service.manageProduct.CategoryService;
 import com.example.managestore.service.manageProduct.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,9 @@ public class OrderController {
 
     private final OrderService orderService;
     @PostMapping("/create")
-    public ResponseEntity<Orders> insert(@RequestBody @Valid OrderDto orderDto){
+    public ResponseEntity<Orders> insert(@RequestBody @Valid OrderItemDto orderItemDto){
         System.out.println("CALLED");
-        return ResponseEntity.ok().body(orderService.createOrder(orderDto));
+        return ResponseEntity.ok().body(orderService.createOrder(orderItemDto));
     }
+
 }
