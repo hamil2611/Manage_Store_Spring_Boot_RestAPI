@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class AuthenticateController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtService jwtService;
     private final UserService userService;
-    @PostMapping("/auth")
+    @GetMapping("/auth")
     public ResponseEntity<ResponseJwt> login(@RequestParam(name = "username") String username,
                                              @RequestParam(name = "password") String password){
         userService.authenticationUser(username,password);
