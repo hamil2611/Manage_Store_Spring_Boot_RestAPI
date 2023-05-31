@@ -55,7 +55,7 @@ public class EmployeeService {
     public EmployeeDto getEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
             log.error(Constants.EMPLOYEE_NOT_FOUND + employeeId);
-            throw new EntityNotFoundException(String.format(Constants.EMPLOYEE_NOT_FOUND + employeeId);
+            throw new EntityNotFoundException(String.format(Constants.EMPLOYEE_NOT_FOUND + employeeId));
         });
         return modelMapper.map(employee, EmployeeDto.class);
     }
