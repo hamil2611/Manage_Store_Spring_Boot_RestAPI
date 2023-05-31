@@ -4,6 +4,7 @@ import com.example.managestore.entity.dto.CustomerDto;
 import com.example.managestore.service.manageProduct.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok().body(orderService.getCustomer(id));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getCustomer(id));
     }
 
     @GetMapping()
     public ResponseEntity<Page<CustomerDto>> getAllCustomer(@RequestParam(value = "page", defaultValue = "0") int page,
                                                             @RequestParam(value = "size", defaultValue = "10") int size) {
-        return ResponseEntity.ok().body(orderService.getAllCustomerPaging(page, size));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllCustomerPaging(page, size));
     }
 }

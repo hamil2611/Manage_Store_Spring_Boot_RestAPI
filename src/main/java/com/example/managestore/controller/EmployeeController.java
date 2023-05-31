@@ -36,22 +36,22 @@ public class EmployeeController {
 
     @GetMapping("/{employeeId}")
     public ResponseEntity<EmployeeDto> getEmployee(@PathVariable(value = "employeeId") Long employeeId) {
-        return ResponseEntity.ok().body(employeeService.getEmployee(employeeId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee(employeeId));
     }
 
     @PutMapping("/update")
     public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
-        return ResponseEntity.ok().body(employeeService.update(employeeDto));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.update(employeeDto));
     }
 
     @PutMapping("/activate/{employeeId}")
     public ResponseEntity<EmployeeDto> activateEmployee(@PathVariable(value = "employeeId") Long employeeId) {
-        return ResponseEntity.ok().body(employeeService.activate(employeeId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.activate(employeeId));
     }
 
     @PutMapping("/deactivate/{employeeId}")
     public ResponseEntity<EmployeeDto> deactivateEmployee(@PathVariable(value = "employeeId") Long employeeId) {
-        return ResponseEntity.ok().body(employeeService.deactivate(employeeId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.deactivate(employeeId));
     }
 
     @DeleteMapping("/delete/{employeeId}")
@@ -63,18 +63,18 @@ public class EmployeeController {
     @PostMapping("/choose-shift")
     public ResponseEntity<List<ShiftDto>> chooseShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
                                                                  @RequestParam(value = "shiftId") Long shiftId) {
-        return ResponseEntity.ok(employeeService.chooseShift(employeeId, shiftId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.chooseShift(employeeId, shiftId));
     }
 
     @PostMapping("/cancel-shift")
     public ResponseEntity<List<ShiftDto>> cancelShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
                                                                  @RequestParam(value = "shiftId") Long shiftId) {
-        return ResponseEntity.ok(employeeService.cancelShift(employeeId, shiftId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.cancelShift(employeeId, shiftId));
     }
 
     @GetMapping("/all-shift/{employeeId}")
     public ResponseEntity<List<ShiftDto>> getShiftOfEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(employeeService.getAllShiftOfEmployee(employeeId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllShiftOfEmployee(employeeId));
     }
 
     @GetMapping("/filter-shift")
@@ -82,18 +82,18 @@ public class EmployeeController {
                                                       @RequestParam(value = "startTime", required = false) LocalDateTime startTime,
                                                       @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
                                                       @RequestParam(value = "isInTime", required = false) boolean isInTime) {
-        return ResponseEntity.ok(employeeService.getShiftForTime(employeeId, startTime, endTime, isInTime));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getShiftForTime(employeeId, startTime, endTime, isInTime));
     }
 
-    //TODO: Error JPQL
     @GetMapping("/filter-employee")
-    public ResponseEntity<Page<EmployeeDto>> filterEmployeeALL(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size,
+    public ResponseEntity<Page<EmployeeDto>> filterEmployeeALL(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "10") int size,
                                                                @RequestParam(value = "email", required = false) String email,
                                                                @RequestParam(value = "startDateCreated", required = false) LocalDateTime startDateCreated,
                                                                @RequestParam(value = "endDateCreated", required = false) LocalDateTime endDateCreated,
                                                                @RequestParam(value = "enable", required = false, defaultValue = "true") String enable,
-                                                               @RequestBody() Grid grid) {
+                                                               @RequestBody Grid grid) {
         System.out.println("CALLED API");
-        return ResponseEntity.ok(employeeService.filterEmployee(grid, page, size, email, startDateCreated, endDateCreated, enable));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.filterEmployee(grid, page, size, email, startDateCreated, endDateCreated, enable));
     }
 }

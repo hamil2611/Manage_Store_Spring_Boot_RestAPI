@@ -5,6 +5,7 @@ import com.example.managestore.entity.order.Orders;
 import com.example.managestore.service.manageProduct.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Orders> insert(@RequestBody @Valid OrderItemDto orderItemDto){
         System.out.println("CALLED");
-        return ResponseEntity.ok().body(orderService.createOrder(orderItemDto));
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.createOrder(orderItemDto));
     }
 
 }

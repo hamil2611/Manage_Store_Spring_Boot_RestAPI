@@ -5,6 +5,7 @@ import com.example.managestore.entity.dto.ClothesDto;
 import com.example.managestore.service.manageProduct.ClothesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +20,17 @@ public class ClothesController {
 
     @PostMapping("/insert")
     public ResponseEntity<ClothesDto> insertClothes(@Valid @RequestBody ClothesDto clothesDto) {
-        return ResponseEntity.ok().body(clothesService.insertClothes(clothesDto));
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.insertClothes(clothesDto));
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<ClothesDto>> getAllPaging() {
-        return ResponseEntity.ok().body(clothesService.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.getAll());
     }
 
     @PutMapping("/update")
     public ResponseEntity<ClothesDto> updateClothes(@Valid @RequestBody ClothesDto clothesDto) {
-        return ResponseEntity.ok().body(clothesService.updateClothes(clothesDto));
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.updateClothes(clothesDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,17 +41,17 @@ public class ClothesController {
 
     @PostMapping("/item/create")
     public ResponseEntity<ClothesItemDto> createClothesItem(@Valid @RequestBody ClothesItemDto clothesItemDto) {
-        return ResponseEntity.ok().body(clothesService.createItem(clothesItemDto));
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.createItem(clothesItemDto));
     }
 
     @PostMapping("/item/update")
     public ResponseEntity<ClothesItemDto> updateClothesItem(@Valid @RequestBody ClothesItemDto clothesItemDto) {
-        return ResponseEntity.ok().body(clothesService.updateItem(clothesItemDto));
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.updateItem(clothesItemDto));
     }
 
     @GetMapping("/item")
     public ResponseEntity<List<ClothesItemDto>> getAllClothesItem(){
-        return ResponseEntity.ok().body(clothesService.getAllItem());
+        return ResponseEntity.status(HttpStatus.OK).body(clothesService.getAllItem());
     }
 
     @DeleteMapping("/item/delete/{id}")
