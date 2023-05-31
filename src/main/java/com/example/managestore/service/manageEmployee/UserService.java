@@ -3,10 +3,7 @@ package com.example.managestore.service.manageEmployee;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
 import com.example.managestore.entity.employee.Employee;
-import com.example.managestore.exception.entityException.EmployeeNoActiveException;
-import com.example.managestore.exception.entityException.EntityExistedException;
-import com.example.managestore.exception.entityException.EntityNotFoundException;
-import com.example.managestore.exception.entityException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.*;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;
 import com.example.managestore.repository.manageEmployee.RoleRepository;
 import com.example.managestore.repository.manageEmployee.UserCredentialRepository;
@@ -32,6 +29,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
+    public void authenticationUser(String username, String password){
+        UserCredential userCredential = userCredentialRepository.findByUsername(username).orElseThrow(() ->{
+           throw new AuthenticationUserException();
+        });
+        if(!passwordEncoder.matches(password, userCredential.getPassword())){
+            throw new AuthenticationUserException();
+        }
+    }
     public Page<UserCredential> getAll(int page, int size) {
         return userCredentialRepository.findAll(PageRequest.of(page, size));
     }

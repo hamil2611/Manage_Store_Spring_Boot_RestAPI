@@ -1,6 +1,7 @@
 package com.example.managestore.entity;
 
 import com.example.managestore.entity.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,5 +37,6 @@ public class UserCredential {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
 }

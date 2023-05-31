@@ -44,9 +44,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/employee/**").hasAnyRole("OWNER","EMPLOYEE")
                         .requestMatchers("/user/**").hasRole("OWNER")
                         .requestMatchers("/schedule/**").hasRole("OWNER")
@@ -58,7 +57,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/customer/**").hasAnyRole("OWNER","EMPLOYEE")
                 )
                 .httpBasic(Customizer.withDefaults())
+                .formLogin().disable()
                 ;
+
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

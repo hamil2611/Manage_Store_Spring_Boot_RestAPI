@@ -1,6 +1,8 @@
 package com.example.managestore.repository.manageEmployee;
 
 import com.example.managestore.entity.UserCredential;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +16,11 @@ import java.util.Optional;
 public interface UserCredentialRepository extends JpaRepository<UserCredential, Long> {
     Page<UserCredential> findAll(Pageable pageable);
 
-    Optional<UserCredential> findByUsername(String username);
+    @Cacheable(value = "findByIdUserCredential")
+    Optional<UserCredential> findByUsername(@Param(value = "username") String username);
+
+    @CacheEvict(value = {"findByIdUserCredential"})
+    UserCredential save(UserCredential userCredential);
 
     boolean existsByUsername(String username);
 

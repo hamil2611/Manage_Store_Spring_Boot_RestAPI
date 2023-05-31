@@ -1,12 +1,11 @@
 package com.example.managestore.exception.controllerException;
 
 import com.example.managestore.exception.EntityResponseClient;
-import com.example.managestore.exception.entityException.EmployeeNoActiveException;
-import com.example.managestore.exception.entityException.EntityExistedException;
-import com.example.managestore.exception.entityException.EntityNotFoundException;
-import com.example.managestore.exception.entityException.RepositoryAccessException;
+import com.example.managestore.exception.entityException.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -49,5 +48,15 @@ public class EntityExceptionController {
             errors.put(fieldName,errorMessage);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(value = InternalAuthenticationServiceException.class)
+    public ResponseEntity<EntityResponseClient> exception(InternalAuthenticationServiceException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EntityResponseClient(APPLICATION,"Invalid login information",exception.getMessage()));
+    }
+
+    @ExceptionHandler(value = AuthenticationUserException.class)
+    public ResponseEntity<EntityResponseClient> exception(AuthenticationUserException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EntityResponseClient(APPLICATION,"Invalid login information",exception.getMessage()));
     }
 }

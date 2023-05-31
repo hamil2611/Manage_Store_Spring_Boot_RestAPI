@@ -1,23 +1,33 @@
 package com.example.managestore.service.manageEmployee;
 
+import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.entity.dto.EmployeeDto;
 import com.example.managestore.entity.employee.Shift;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;
 import com.example.managestore.repository.manageEmployee.ShiftRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +38,7 @@ public class EmployeeService {
     private final ShiftRepository shiftRepository;
     private final ModelMapper modelMapper;
 
+
     public EmployeeDto insert(EmployeeDto employeeDto) {
         try {
             employeeDto.setCreatedDate(LocalDateTime.now());
@@ -36,30 +47,39 @@ public class EmployeeService {
             Employee employeeInserted = employeeRepository.save(modelMapper.map(employeeDto, Employee.class));
             return modelMapper.map(employeeInserted, EmployeeDto.class);
         } catch (DataAccessException e) {
-            log.error("Unable save shirt");
-            throw new RepositoryAccessException("Unable save shirt");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public EmployeeDto getEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            log.error(String.format("Employee not found with Id = %f", employeeId));
-            throw new EntityNotFoundException(String.format("Employee not found with Id = %f", employeeId));
+            log.error(Constants.EMPLOYEE_NOT_FOUND + employeeId);
+            throw new EntityNotFoundException(String.format(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         return modelMapper.map(employee, EmployeeDto.class);
     }
 
-    public List<EmployeeDto> filterEmployee(String email, LocalDateTime startDateCreated, LocalDateTime endDateCreated, String enable) {
-        if(startDateCreated == null || endDateCreated == null){
+    public Page<EmployeeDto> filterEmployee(Grid grid, int page, int size, String email, LocalDateTime startDateCreated, LocalDateTime endDateCreated, String enable) {
+        if (startDateCreated == null || endDateCreated == null) {
             startDateCreated = LocalDate.now().withDayOfMonth(1).atStartOfDay();
             endDateCreated = startDateCreated.plusMonths(1).minusDays(1);
         }
-        return employeeRepository.filterEmployee(email, startDateCreated, endDateCreated,  convertToBoolean(enable))
-                .stream()
-                .map(x -> modelMapper.map(x, EmployeeDto.class))
-                .collect(Collectors.toList());
+        if (StringUtils.isBlank(grid.getGridName()))
+            grid.setGridName("id");
+        Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("ASC")
+                ? Sort.by(grid.getGridName()).ascending()
+                : Sort.by(grid.getGridName()).descending());
+        return employeeRepository.filterEmployee(email, startDateCreated, endDateCreated, convertToBoolean(enable), pageable)
+                .map(new Function<Employee, EmployeeDto>() {
+                    @Override
+                    public EmployeeDto apply(Employee employee) {
+                        return modelMapper.map(employee, EmployeeDto.class);
+                    }
+                });
     }
-    private boolean convertToBoolean(String enable){
+
+    private boolean convertToBoolean(String enable) {
         if (enable.equals("true"))
             return true;
         else if (enable.equals("false"))
@@ -67,19 +87,27 @@ public class EmployeeService {
         else
             return Boolean.parseBoolean(null);
     }
-    public List<EmployeeDto> getAll() {
-        List<EmployeeDto> employeeDtos = employeeRepository.findAll()
-                .stream()
-                .map(x -> modelMapper.map(x, EmployeeDto.class))
-                .collect(Collectors.toList());
-        System.out.println("CALLED");
-        return employeeDtos;
+
+    @Cacheable(cacheNames = "getAllEmployee")
+    public Page<EmployeeDto> getAll(Grid grid, int page, int size) {
+        if (StringUtils.isBlank(grid.getGridName()))
+            grid.setGridName("id");
+        Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("ASC")
+                ? Sort.by(grid.getGridName()).ascending()
+                : Sort.by(grid.getGridName()).descending());
+        return employeeRepository.findAll(pageable).map(new Function<Employee, EmployeeDto>() {
+            @Override
+            public EmployeeDto apply(Employee employee) {
+                return modelMapper.map(employee, EmployeeDto.class);
+            }
+        });
     }
 
+    @CacheEvict(cacheNames = {"getAllEmployee"})
     public EmployeeDto activate(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            log.error(String.format("Employee with Id=%f does not exist", employeeId));
-            throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist", employeeId));
+            log.error(Constants.EMPLOYEE_NOT_FOUND + employeeId);
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         employee.setEnable(true);
         try {
@@ -87,15 +115,15 @@ public class EmployeeService {
             Employee employeeUpdated = employeeRepository.save(employee);
             return modelMapper.map(employeeUpdated, EmployeeDto.class);
         } catch (DataAccessException e) {
-            log.error("Unable active employee");
-            throw new RepositoryAccessException("Unable active employee");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public EmployeeDto deactivate(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            log.error(String.format("Employee with Id=%f does not exist", employeeId));
-            throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist", employeeId));
+            log.error(Constants.EMPLOYEE_NOT_FOUND + employeeId);
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         employee.setEnable(false);
         try {
@@ -103,21 +131,22 @@ public class EmployeeService {
             Employee employeeUpdated = employeeRepository.save(employee);
             return modelMapper.map(employeeUpdated, EmployeeDto.class);
         } catch (DataAccessException e) {
-            log.error("Unable active employee");
-            throw new RepositoryAccessException("Unable active employee");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
-    public void delete(Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException("Employee does not exist!");
+
+    public void delete(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
-        employeeRepository.deleteById(id);
+        employeeRepository.deleteById(employeeId);
     }
 
     public EmployeeDto update(EmployeeDto employeeDto) {
         Employee employeeExisted = employeeRepository.findById(employeeDto.getId()).orElseThrow(() -> {
-            log.error("Employee not found");
-            throw new EntityNotFoundException("Employee not found");
+            log.error(Constants.EMPLOYEE_NOT_FOUND + employeeDto.getId());
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeDto.getId());
         });
         employeeExisted.setEmail(employeeDto.getEmail());
         employeeExisted.setLastName(employeeDto.getLastName());
@@ -129,19 +158,19 @@ public class EmployeeService {
             Employee employeeUpdated = employeeRepository.save(employeeExisted);
             return modelMapper.map(employeeUpdated, EmployeeDto.class);
         } catch (DataAccessException e) {
-            System.out.println(e);
-            throw new RepositoryAccessException("Unable update employee");
+            log.debug(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public List<ShiftDto> chooseShift(Long employeeId, Long shiftId) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist", employeeId));
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
 
         Shift shift = shiftRepository.findById(shiftId).orElseThrow(() -> {
-            throw new EntityNotFoundException(String.format("Shift with Id=%f does not exist", shiftId));
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
 
         Set<Shift> shifts = employee.getShifts();
@@ -154,7 +183,7 @@ public class EmployeeService {
                     .map(x -> modelMapper.map(x, ShiftDto.class))
                     .collect(Collectors.toList());
         } catch (DataAccessException e) {
-            throw new RepositoryAccessException("Unable set shift for employee");
+            throw new RepositoryAccessException(Constants.UNABLE_SET_SHIFT_FOR_EMPLOYEE);
         }
 
     }
@@ -162,7 +191,7 @@ public class EmployeeService {
     public List<ShiftDto> cancelShift(Long employeeId, Long shiftId) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist", employeeId));
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         Set<Shift> shifts = employee.getShifts()
                 .stream()
@@ -172,7 +201,7 @@ public class EmployeeService {
         try {
             employeeRepository.save(employee);
         } catch (DataAccessException e) {
-            throw new RepositoryAccessException("Unable set shift for employee");
+            throw new RepositoryAccessException(Constants.UNABLE_SET_SHIFT_FOR_EMPLOYEE);
         }
         return shifts.stream().map(x -> modelMapper.map(x, ShiftDto.class)).collect(Collectors.toList());
 
@@ -180,7 +209,7 @@ public class EmployeeService {
 
     public List<ShiftDto> getAllShiftOfEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            throw new EntityNotFoundException(String.format("Employee with Id=%f does not exist", employeeId));
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         return employee.getShifts()
                 .stream()
