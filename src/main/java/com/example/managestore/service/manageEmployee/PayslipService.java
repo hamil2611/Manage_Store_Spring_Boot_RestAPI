@@ -4,6 +4,7 @@ import com.example.managestore.entity.dto.PayslipDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.entity.employee.Payslip;
 import com.example.managestore.entity.employee.Shift;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.enums.PayslipStatus;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
@@ -28,36 +29,36 @@ public class PayslipService {
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
 
-    public List<PayslipDto> getALl(){
-        return payslipRepository.findAll().stream().map(x -> modelMapper.map(x,PayslipDto.class)).collect(Collectors.toList());
+    public List<PayslipDto> getALl() {
+        return payslipRepository.findAll().stream().map(x -> modelMapper.map(x, PayslipDto.class)).collect(Collectors.toList());
     }
 
-    public PayslipDto calcuSalaryForEmployee(Long employeeId, LocalDateTime startTime, LocalDateTime endTime){
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->{
-           throw new EntityNotFoundException(String.format("Employee not found with id = %f",employeeId));
+    public PayslipDto calcuSalaryForEmployee(Long employeeId, LocalDateTime startTime, LocalDateTime endTime) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
         Float totalHours = Float.valueOf(0);
         for (Shift shift : employee.getShifts()
                 .stream()
                 .filter(x -> x.getTimeShift().isAfter(startTime) && x.getTimeShift().isBefore(endTime))
                 .collect(Collectors.toList())) {
-            totalHours+=shift.getNumberOfHours();
+            totalHours += shift.getNumberOfHours();
         }
         System.out.println(totalHours);
         System.out.println(employee.getLevelSalary());
         Payslip payslip = new Payslip();
         payslip.setTotalHours(totalHours);
-        payslip.setSalary(totalHours*employee.getLevelSalary());
+        payslip.setSalary(totalHours * employee.getLevelSalary());
         payslip.setStatus(PayslipStatus.PENDING);
         payslip.setCreatedDate(LocalDateTime.now());
         payslip.setLastUpdated(LocalDateTime.now());
         payslip.setEmployee(employee);
-        try{
+        try {
             Payslip payslipInserted = payslipRepository.save(payslip);
-            return modelMapper.map(payslipInserted,PayslipDto.class);
-        }catch (DataAccessException e){
-            log.error("Unable save payslip");
-            throw new RepositoryAccessException("Unable save payslip");
+            return modelMapper.map(payslipInserted, PayslipDto.class);
+        } catch (DataAccessException e) {
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 }

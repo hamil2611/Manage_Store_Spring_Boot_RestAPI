@@ -4,6 +4,7 @@ import com.example.managestore.entity.dto.ClothesItemDto;
 import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.dto.ClothesDto;
 import com.example.managestore.entity.product.clothes.ClothesItem;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
@@ -31,8 +32,8 @@ public class ClothesService {
             Clothes clothesInserted = clothesRepository.save(modelMapper.map(clothesDto, Clothes.class));
             return modelMapper.map(clothesInserted, ClothesDto.class);
         } catch (DataAccessException e) {
-            log.debug("Unable save shirt");
-            throw new RepositoryAccessException("Unable save shirt");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
@@ -43,12 +44,12 @@ public class ClothesService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteClothes(Long id) {
-        if(!clothesRepository.existsById(id)){
-            log.debug(String.format("Clothes with Id=%f does not exist", id));
-            throw new EntityNotFoundException(String.format("Clothes with Id=%f does not exist", id));
+    public void deleteClothes(Long clothesId) {
+        if(!clothesRepository.existsById(clothesId)){
+            log.error(Constants.CLOTHES_NOT_FOUND + clothesId);
+            throw new EntityNotFoundException(Constants.CLOTHES_NOT_FOUND + clothesId);
         }
-        clothesRepository.deleteById(id);
+        clothesRepository.deleteById(clothesId);
     }
 
     public ClothesDto updateClothes(ClothesDto clothesDto) {
@@ -57,23 +58,23 @@ public class ClothesService {
             ClothesDto shirtUpdated = modelMapper.map(clothesRepository.save(clothes), ClothesDto.class);
             return shirtUpdated;
         } catch (DataAccessException e) {
-            log.debug("Unable update shirt");
-            throw new RepositoryAccessException("Unable update shirt");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public ClothesItemDto createItem(ClothesItemDto clothesItemDto) {
         if (clothesItemRepository.existsByClothesId(clothesItemDto.getClothes().getId())) {
-            log.debug(String.format("ClotheItem for Clothes have been already"));
-            throw new EntityExistedException(String.format("ClotheItem for Clothes have been already"));
+            log.error(Constants.CLOTHES_EXISTED_FOR_CLOTHES_ITEM + clothesItemDto.getId());
+            throw new EntityExistedException(Constants.CLOTHES_EXISTED_FOR_CLOTHES_ITEM + clothesItemDto.getId());
         }
         try {
             ClothesItemDto clothesCreated = clothesItemRepository.save(clothesItemDto.toEntity()).toDto();
             return clothesCreated;
         } catch (DataAccessException e) {
             System.out.println(e);
-            log.debug("Unable save ClothesItem");
-            throw new RepositoryAccessException("Unable save ClothesItem");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
@@ -82,15 +83,15 @@ public class ClothesService {
             ClothesItemDto clothesCreated = clothesItemRepository.save(clothesItemDto.toEntity()).toDto();
             return clothesCreated;
         } catch (DataAccessException e) {
-            log.debug("Unable save ClothesItem");
-            throw new RepositoryAccessException("Unable save ClothesItem");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public void deleteItem(Long clothesItemId) {
         clothesItemRepository.findById(clothesItemId).orElseThrow(() -> {
-            log.debug(String.format("ClothesItem does not exist"));
-            throw new EntityNotFoundException(String.format("ClothesItem does not exist"));
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new EntityNotFoundException(Constants.UNABLE_SAVE_RECORD);
         });
         clothesItemRepository.deleteById(clothesItemId);
     }

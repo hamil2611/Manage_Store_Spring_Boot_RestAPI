@@ -3,6 +3,7 @@ package com.example.managestore.service.manageEmployee;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
 import com.example.managestore.entity.employee.Employee;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.*;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;
 import com.example.managestore.repository.manageEmployee.RoleRepository;
@@ -29,14 +30,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public void authenticationUser(String username, String password){
-        UserCredential userCredential = userCredentialRepository.findByUsername(username).orElseThrow(() ->{
-           throw new AuthenticationUserException();
+    public void authenticationUser(String username, String password) {
+        UserCredential userCredential = userCredentialRepository.findByUsername(username).orElseThrow(() -> {
+            throw new AuthenticationUserException();
         });
-        if(!passwordEncoder.matches(password, userCredential.getPassword())){
+        if (!passwordEncoder.matches(password, userCredential.getPassword())) {
             throw new AuthenticationUserException();
         }
     }
+
     public Page<UserCredential> getAll(int page, int size) {
         return userCredentialRepository.findAll(PageRequest.of(page, size));
     }
@@ -44,72 +46,75 @@ public class UserService {
     public UserCredential insert(UserCredential userCredential) {
         try {
             if (userCredentialRepository.existsByUsername(userCredential.getUsername()))
-                throw new EntityExistedException(String.format("User with Username is %s have already been existed", userCredential.getUsername()));
+                throw new EntityExistedException(String.format(Constants.ENTITY_NOT_FOUND));
             userCredential.setPassword(passwordEncoder.encode(userCredential.getPassword()));
             UserCredential userCredentialInserted = userCredentialRepository.save(userCredential);
             return userCredentialInserted;
         } catch (DataAccessException e) {
-            log.error("Unable save user");
-            throw new RepositoryAccessException("Unable save user");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public UserCredential createCredentialForEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> {
-            log.debug(String.format("Not found Employee with Id = %f", employeeId));
-            throw new EntityNotFoundException(String.format("Not found Employee with Id = %f", employeeId));
+            log.error(Constants.EMPLOYEE_NOT_FOUND + employeeId);
+            throw new EntityNotFoundException(Constants.EMPLOYEE_NOT_FOUND + employeeId);
         });
-        if(!employee.isEnable()){
-            log.debug("Employee enable is false");
-            throw new EmployeeNoActiveException("Employee has not been activated or deleted");
+        if (!employee.isEnable()) {
+            log.error("Employee enable is false");
+            throw new EmployeeNoActiveException("Employee has been deactivated or deleted");
         }
-        if (userCredentialRepository.existsByEmployeeId(employeeId)){
-            log.debug("Employee have been created UserCredential");
-            throw new EmployeeNoActiveException("Employee have been created UserCredential");
+        if (userCredentialRepository.existsByEmployeeId(employeeId)) {
+            log.error(Constants.USER_EXISTED_FOR_EMPLOYEE + employeeId);
+            throw new EmployeeNoActiveException(Constants.USER_EXISTED_FOR_EMPLOYEE + employeeId);
         }
         String username = employee.getUsernameForEmployee();
         Integer cnt = userCredentialRepository.countUserContainUsername(username);
-        if(cnt!=0)
+        if (cnt != 0)
             username = username.concat(String.valueOf(cnt));
         UserCredential userCredential = new UserCredential();
         userCredential.setUsername(username);
-        userCredential.setPassword(passwordEncoder.encode("123456789"));
+        userCredential.setPassword(passwordEncoder.encode(username));
         userCredential.setEmployee(employee);
         try {
             return userCredentialRepository.save(userCredential);
-        }catch (DataAccessException e){
-            log.error("Unable save user");
-            throw new RepositoryAccessException("Unable save user");
+        } catch (DataAccessException e) {
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
-    public void deleteUser(Long userId){
-        if(!userCredentialRepository.existsById(userId))
-            throw new EntityNotFoundException(String.format("User not found with Id=%f",userId));
+    public void deleteUser(Long userId) {
+        if (!userCredentialRepository.existsById(userId)) {
+            log.error(Constants.USER_NOT_FOUND + userId);
+            throw new EntityNotFoundException(Constants.USER_NOT_FOUND + userId);
+        }
         userCredentialRepository.deleteById(userId);
     }
+
     public Role insertRole(Role role) {
         try {
             if (roleRepository.existsByName(role.getName())) {
-                throw new EntityExistedException(String.format("Role with Name is %s have already been existed", role.getName()));
+                throw new EntityExistedException(Constants.ROLE_NAME_EXISTED + role.getName());
             } else {
                 Role roleInserted = roleRepository.save(role);
                 return roleInserted;
             }
         } catch (DataAccessException e) {
-            log.error("Unable save role");
-            throw new RepositoryAccessException("Unable save role");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public UserCredential setRoleForUser(Long userId, Long roleId) {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException(String.format("Role with Id = %f not found", roleId));
+                    throw new EntityNotFoundException(Constants.ROLE_NOT_FOUND + roleId);
                 });
         UserCredential userCredential = userCredentialRepository.findById(userId)
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException(String.format("User with Id = %f not found", userId));
+                    throw new EntityNotFoundException(Constants.USER_NOT_FOUND + userId);
                 });
         Set<Role> roles = userCredential.getRoles();
         roles.add(role);
@@ -118,14 +123,15 @@ public class UserService {
             UserCredential userCredentialUpdated = userCredentialRepository.save(userCredential);
             return userCredentialUpdated;
         } catch (DataAccessException e) {
-            throw new RepositoryAccessException("Unable save role");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
     public UserCredential cancelRoleOfUser(Long userId, Long roleId) {
         UserCredential userCredential = userCredentialRepository.findById(userId)
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException(String.format("User with Id = %f not found", userId));
+                    throw new EntityNotFoundException(Constants.USER_NOT_FOUND + userId);
                 });
         Set<Role> roles = userCredential.getRoles().stream().filter(x -> !x.getId().equals(roleId)).collect(Collectors.toSet());
         userCredential.setRoles(roles);
@@ -133,14 +139,15 @@ public class UserService {
             UserCredential userCredentialUpdated = userCredentialRepository.save(userCredential);
             return userCredentialUpdated;
         } catch (DataAccessException e) {
-            throw new RepositoryAccessException("Unable save role");
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
-    public Set<UserCredential> getAllUserWithRoleId(Long role_id) {
-        Role role = roleRepository.findById(role_id)
+    public Set<UserCredential> getAllUserWithRoleId(Long roleId) {
+        Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> {
-                    throw new RepositoryAccessException("bug");
+                    throw new RepositoryAccessException(Constants.ROLE_NOT_FOUND + roleId);
                 });
         return role.getUserCredentials();
     }

@@ -2,6 +2,7 @@ package com.example.managestore.service.manageProduct;
 
 import com.example.managestore.entity.dto.CategoryDto;
 import com.example.managestore.entity.product.Category;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageProduct.CategoryRepository;
@@ -22,39 +23,40 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
-    public CategoryDto insert(CategoryDto categoryDto){
-        try{
+
+    public CategoryDto insert(CategoryDto categoryDto) {
+        try {
             Category category = modelMapper.map(categoryDto, Category.class);
             category.setCreatedDate(LocalDateTime.now());
             category.setLastUpdated(LocalDateTime.now());
             Category categoryInserted = categoryRepository.save(category);
-            return modelMapper.map(categoryInserted,CategoryDto.class);
-        }catch (DataAccessException e){
-            log.debug("Unable save Category");
-            throw new RepositoryAccessException("Unable save Category");
+            return modelMapper.map(categoryInserted, CategoryDto.class);
+        } catch (DataAccessException e) {
+            log.debug(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
-    public CategoryDto update(CategoryDto categoryDto){
-        try{
-            Category category = modelMapper.map(categoryDto,Category.class);
+    public CategoryDto update(CategoryDto categoryDto) {
+        try {
+            Category category = modelMapper.map(categoryDto, Category.class);
             category.setLastUpdated(LocalDateTime.now());
             Category categoryUpdated = categoryRepository.save(category);
-            return modelMapper.map(categoryUpdated,CategoryDto.class);
-        }catch (DataAccessException e){
-            log.debug("Unable update Category");
-            throw new RepositoryAccessException("Unable update Category");
+            return modelMapper.map(categoryUpdated, CategoryDto.class);
+        } catch (DataAccessException e) {
+            log.debug(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
-    public List<CategoryDto> getAll(){
-        return categoryRepository.findAll().stream().map(x -> modelMapper.map(x,CategoryDto.class)).collect(Collectors.toList());
+    public List<CategoryDto> getAll() {
+        return categoryRepository.findAll().stream().map(x -> modelMapper.map(x, CategoryDto.class)).collect(Collectors.toList());
     }
 
-    public void delete(Long categoryId){
-        if(!categoryRepository.existsById(categoryId)){
-            log.debug(String.format("Category with Id=%f does not exist", categoryId));
-            throw new EntityNotFoundException(String.format("Category with Id=%f does not exist", categoryId));
+    public void delete(Long categoryId) {
+        if (!categoryRepository.existsById(categoryId)) {
+            log.debug(Constants.CATEGORY_NOT_FOUND + categoryId);
+            throw new EntityNotFoundException(Constants.CATEGORY_NOT_FOUND + categoryId);
         }
         categoryRepository.deleteById(categoryId);
     }

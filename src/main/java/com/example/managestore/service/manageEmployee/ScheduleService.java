@@ -2,10 +2,12 @@ package com.example.managestore.service.manageEmployee;
 
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Shift;
+import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.ShiftRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,25 +18,27 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleService {
     private final ShiftRepository shiftRepository;
     private final ModelMapper modelMapper;
 
-    public ShiftDto insert(ShiftDto shiftDto){
-        if(shiftRepository.existsByTimeShift(shiftDto.getTimeShift())){
-            throw new EntityExistedException(String.format("Shift with time %s has already been existed!", shiftDto.getTimeShift().toString()));
+    public ShiftDto insert(ShiftDto shiftDto) {
+        if (shiftRepository.existsByTimeShift(shiftDto.getTimeShift())) {
+            throw new EntityExistedException(Constants.SHIFT_EXISTED_IN_TIME + shiftDto.getTimeShift().toString());
         }
-        try{
+        try {
             Shift shift = modelMapper.map(shiftDto, Shift.class);
             shift.setCreatedDate(LocalDateTime.now());
             shift.setLastUpdated(LocalDateTime.now());
             return modelMapper.map(shiftRepository.save(shift), ShiftDto.class);
-        }catch (DataAccessException e){
-            throw new RepositoryAccessException("Unable save shift");
+        } catch (DataAccessException e) {
+            log.error(Constants.UNABLE_SAVE_RECORD);
+            throw new RepositoryAccessException(Constants.UNABLE_SAVE_RECORD);
         }
     }
 
-    public List<ShiftDto> getAll(){
+    public List<ShiftDto> getAll() {
         return shiftRepository.findAll().stream().map(x -> modelMapper.map(x, ShiftDto.class)).collect(Collectors.toList());
     }
 }
