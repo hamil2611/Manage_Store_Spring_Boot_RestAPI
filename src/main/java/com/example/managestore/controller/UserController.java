@@ -1,7 +1,9 @@
 package com.example.managestore.controller;
 
+import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.dto.UserDto;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.service.manageEmployee.UserService;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,13 +21,18 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@ControllerAdvice
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/insert")
     public ResponseEntity<UserCredential> insertNewUser(@Valid @RequestBody UserCredential userCredential) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.insert(userCredential));
+    }
+
+    @GetMapping()
+    public ResponseEntity<Page<UserCredential>> getAllUser(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                           @RequestParam(name = "size", defaultValue = "10") int size) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAll(page, size));
     }
 
     @PostMapping("/create/{employeeId}")
@@ -38,15 +46,24 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<Page<UserCredential>> getAllUser(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                           @RequestParam(name = "size", defaultValue = "5") int size) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAll(page, size));
-    }
-
     @PostMapping("/insert-role")
     public ResponseEntity<Role> insertNewRole(@Valid @RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.insertRole(role));
+    }
+
+    @GetMapping("/role/{id}")
+
+    public ResponseEntity<Page<UserDto>> getAllUserWithRole(@PathVariable(name = "id") Long id,
+                                                            @RequestParam(name = "page", defaultValue = "0") int page,
+                                                            @RequestParam(name = "size", defaultValue = "10") int size) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllInfoUserOfRoleId(id, page, size));
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<Page<Role>> getAllRole(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                 @RequestParam(name = "size", defaultValue = "10") int size,
+                                                 @RequestBody Grid grid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllRole(page, size, grid));
     }
 
     @PostMapping("/set-role")
@@ -61,8 +78,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.cancelRoleOfUser(userId, roleId));
     }
 
-    @GetMapping("/role")
-    public ResponseEntity<Set<UserCredential>> getAllUserWithRole(@RequestParam(name = "roleId", defaultValue = "1") Long roleId) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserWithRoleId(roleId));
-    }
 }

@@ -52,10 +52,10 @@ public class Employee {
     private Set<Shift> shifts;
 
     public String getFullName() {
-        return this.firstName + this.lastName;
+        return this.lastName + " " + this.firstName;
     }
 
-    public String getUsernameForEmployee(){
-        return this.firstName.toLowerCase().concat(".").concat(this.lastName.toLowerCase().replaceAll(" ",""));
+    public String getUsernameForEmployee() {
+        return this.firstName.toLowerCase().concat(".").concat(this.lastName.toLowerCase().replaceAll(" ", ""));
     }
 }

@@ -1,7 +1,9 @@
 package com.example.managestore.service.manageEmployee;
 
+import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.Role;
 import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.dto.UserDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.*;
@@ -10,13 +12,17 @@ import com.example.managestore.repository.manageEmployee.RoleRepository;
 import com.example.managestore.repository.manageEmployee.UserCredentialRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -107,6 +113,14 @@ public class UserService {
         }
     }
 
+    public Page<Role> getAllRole(int page, int size, Grid grid){
+        if(StringUtils.isBlank(grid.getGridName()))
+            grid.setGridName("id");
+        Pageable pageable = PageRequest.of(page,size,grid.getSort().equals("asc")
+                                                        ?Sort.by(grid.getGridName()).ascending()
+                                                        :Sort.by(grid.getGridName()).descending());
+        return roleRepository.findAll(pageable);
+    }
     public UserCredential setRoleForUser(Long userId, Long roleId) {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> {
@@ -144,12 +158,26 @@ public class UserService {
         }
     }
 
-    public Set<UserCredential> getAllUserWithRoleId(Long roleId) {
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
+    public Page<UserDto> getAllInfoUserOfRoleId(Long roleId, int page, int size) {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> {
                     throw new RepositoryAccessException(Constants.ROLE_NOT_FOUND + roleId);
                 });
-        return role.getUserCredentials();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (UserCredential user : role.getUserCredentials()) {
+            UserDto userDto = UserDto.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .fullName(user.getEmployee() == null ? "" : user.getEmployee().getFullName())
+                    .email(user.getEmployee() == null ? "" : user.getEmployee().getEmail())
+                    .build();
+            userDtos.add(userDto);
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        Page<UserDto> pageUser = new PageImpl<>(userDtos, pageable, userDtos.size());
+        return pageUser;
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,6 @@ public class Customer {
     private LocalDateTime createdDate;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "customer")
-    private Set<Orders> orders;
+    private List<Orders> orders;
 
 }

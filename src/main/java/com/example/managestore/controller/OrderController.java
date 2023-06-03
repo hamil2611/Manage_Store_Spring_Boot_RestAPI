@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -20,8 +17,11 @@ public class OrderController {
     private final OrderService orderService;
     @PostMapping("/create")
     public ResponseEntity<Orders> insert(@RequestBody @Valid OrderItemDto orderItemDto){
-        System.out.println("CALLED");
         return ResponseEntity.status(HttpStatus.OK).body(orderService.createOrder(orderItemDto));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Orders> getOrder(@PathVariable(name = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrder(id));
+    }
 }

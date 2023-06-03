@@ -67,7 +67,7 @@ public class EmployeeService {
         }
         if (StringUtils.isBlank(grid.getGridName()))
             grid.setGridName("id");
-        Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("ASC")
+        Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("asc")
                 ? Sort.by(grid.getGridName()).ascending()
                 : Sort.by(grid.getGridName()).descending());
         return employeeRepository.filterEmployee(email, startDateCreated, endDateCreated, convertToBoolean(enable), pageable)
@@ -223,6 +223,4 @@ public class EmployeeService {
                 .map(x -> modelMapper.map(x, ShiftDto.class))
                 .collect(Collectors.toList());
     }
-
-
 }

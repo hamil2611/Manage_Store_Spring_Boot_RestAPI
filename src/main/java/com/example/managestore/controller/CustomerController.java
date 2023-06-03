@@ -1,5 +1,6 @@
 package com.example.managestore.controller;
 
+import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.dto.CustomerDto;
 import com.example.managestore.service.manageProduct.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ public class CustomerController {
 
     @GetMapping()
     public ResponseEntity<Page<CustomerDto>> getAllCustomer(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                            @RequestParam(value = "size", defaultValue = "10") int size) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllCustomerPaging(page, size));
+                                                            @RequestParam(value = "size", defaultValue = "10") int size,
+                                                            @RequestBody Grid grid) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllCustomer(page, size, grid));
     }
 }

@@ -30,6 +30,7 @@ public class Orders {
     private Float totalPrice;
     @Column
     private LocalDateTime createdDate;
+    @Enumerated(EnumType.STRING)
     @Column
     private OrderStatus status;
 

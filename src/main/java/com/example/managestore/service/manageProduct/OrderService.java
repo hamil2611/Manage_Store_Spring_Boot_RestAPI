@@ -1,5 +1,6 @@
 package com.example.managestore.service.manageProduct;
 
+import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.dto.CustomerDto;
 import com.example.managestore.entity.dto.OrderItemDto;
 import com.example.managestore.entity.order.*;
@@ -12,16 +13,20 @@ import com.example.managestore.exception.entityException.RepositoryAccessExcepti
 import com.example.managestore.repository.manageProduct.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -84,16 +89,24 @@ public class OrderService {
         }
         return order;
     }
-
+    public Orders getOrder(Long orderId){
+        Orders order = orderRepository.findById(orderId).orElseThrow(()->{
+            throw new EntityNotFoundException(Constants.ENTITY_NOT_FOUND);
+        });
+        return order;
+    }
+    public Page<CustomerDto> getAllCustomer(int page, int size, Grid grid){
+        if(StringUtils.isBlank(grid.getGridName()))
+            grid.setGridName("id");
+        Pageable pageable = PageRequest.of(page,size,grid.getSort().equals("asc")
+                ? Sort.by(grid.getGridName()).ascending()
+                :Sort.by(grid.getGridName()).descending());
+        return customerRepository.findAll(pageable).map(customer -> modelMapper.map(customer,CustomerDto.class));
+    }
     public CustomerDto getCustomer(Long customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> {
             throw new EntityNotFoundException(Constants.CUSTOMER_NOT_FOUND + customerId);
         });
         return modelMapper.map(customer, CustomerDto.class);
-    }
-
-    public Page<CustomerDto> getAllCustomerPaging(int page, int size) {
-        Page<Customer> customers = customerRepository.findAll(PageRequest.of(page, size));
-        return customers.map(customer -> modelMapper.map(customer, CustomerDto.class));
     }
 }

@@ -11,14 +11,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ModelMapperConfig {
+    //TODO: Review PropertyMap
     @Bean
     public ModelMapper modelMapper(){
         ModelMapper modelMapper = new ModelMapper();
         PropertyMap<Employee, EmployeeDto> employeeMap = new PropertyMap<>() {
             @Override
             protected void configure() {
-                String email = source.getEmail() + "1123";
-                map().setEmail("123123");
+
             }
         };
         PropertyMap<Payslip, PayslipDto> payslipMap = new PropertyMap<Payslip, PayslipDto>() {
