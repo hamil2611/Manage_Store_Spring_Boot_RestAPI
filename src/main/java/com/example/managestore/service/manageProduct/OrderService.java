@@ -1,8 +1,8 @@
 package com.example.managestore.service.manageProduct;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.dto.CustomerDto;
-import com.example.managestore.entity.dto.OrderItemDto;
+import com.example.managestore.domain.CustomerDto;
+import com.example.managestore.domain.OrderItemDto;
 import com.example.managestore.entity.order.*;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor

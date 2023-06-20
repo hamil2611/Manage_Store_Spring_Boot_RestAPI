@@ -1,8 +1,8 @@
 package com.example.managestore.configuration;
 
-import com.example.managestore.entity.dto.PayslipDto;
+import com.example.managestore.domain.PayslipDto;
 import com.example.managestore.entity.employee.Employee;
-import com.example.managestore.entity.dto.EmployeeDto;
+import com.example.managestore.domain.EmployeeDto;
 import com.example.managestore.entity.employee.Payslip;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

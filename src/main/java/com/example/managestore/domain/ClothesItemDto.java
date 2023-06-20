@@ -1,4 +1,4 @@
-package com.example.managestore.entity.dto;
+package com.example.managestore.domain;
 
 import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.product.clothes.ClothesItem;

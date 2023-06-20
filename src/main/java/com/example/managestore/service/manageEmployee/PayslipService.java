@@ -1,6 +1,6 @@
 package com.example.managestore.service.manageEmployee;
 
-import com.example.managestore.entity.dto.PayslipDto;
+import com.example.managestore.domain.PayslipDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.entity.employee.Payslip;
 import com.example.managestore.entity.employee.Shift;
@@ -16,7 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

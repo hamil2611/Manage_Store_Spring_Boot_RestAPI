@@ -1,6 +1,6 @@
 package com.example.managestore.controller;
 
-import com.example.managestore.entity.dto.CategoryDto;
+import com.example.managestore.domain.CategoryDto;
 import com.example.managestore.service.manageProduct.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

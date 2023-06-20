@@ -1,6 +1,6 @@
 package com.example.managestore.service.manageProduct;
 
-import com.example.managestore.entity.dto.CategoryDto;
+import com.example.managestore.domain.CategoryDto;
 import com.example.managestore.entity.product.Category;
 import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;

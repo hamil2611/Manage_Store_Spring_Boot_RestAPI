@@ -1,7 +1,7 @@
 package com.example.managestore.controller;
 
-import com.example.managestore.entity.dto.ShoesDto;
-import com.example.managestore.entity.dto.ShoesItemDto;
+import com.example.managestore.domain.ShoesDto;
+import com.example.managestore.domain.ShoesItemDto;
 import com.example.managestore.service.manageProduct.ShoesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

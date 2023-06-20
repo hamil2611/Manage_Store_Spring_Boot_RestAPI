@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +26,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSp
     @Cacheable(value = "findAllEmployee")
     Page<Employee> findAll(Pageable pageable);
 
+    Page<Employee> findAll(Specification specification,Pageable pageable);
     @CacheEvict(value = {"findAllEmployee"}, allEntries = true)
     Employee save(Employee employee);
 

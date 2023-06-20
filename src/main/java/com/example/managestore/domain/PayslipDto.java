@@ -1,4 +1,4 @@
-package com.example.managestore.entity.dto;
+package com.example.managestore.domain;
 
 import com.example.managestore.enums.PayslipStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;

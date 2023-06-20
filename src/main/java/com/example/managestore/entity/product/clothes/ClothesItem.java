@@ -1,6 +1,6 @@
 package com.example.managestore.entity.product.clothes;
 
-import com.example.managestore.entity.dto.ClothesItemDto;
+import com.example.managestore.domain.ClothesItemDto;
 import com.example.managestore.entity.order.OrderClothes;
 import jakarta.persistence.*;
 import lombok.*;

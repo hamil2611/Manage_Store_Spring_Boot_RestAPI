@@ -3,7 +3,7 @@ package com.example.managestore.service.manageEmployee;
 import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.employee.Role;
 import com.example.managestore.entity.employee.UserCredential;
-import com.example.managestore.entity.dto.UserDto;
+import com.example.managestore.domain.UserDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.*;

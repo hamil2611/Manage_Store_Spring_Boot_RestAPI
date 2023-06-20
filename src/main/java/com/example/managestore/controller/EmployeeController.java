@@ -1,13 +1,12 @@
 package com.example.managestore.controller;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.dto.EmployeeDto;
-import com.example.managestore.entity.dto.ShiftDto;
+import com.example.managestore.domain.EmployeeDto;
+import com.example.managestore.domain.ShiftDto;
 import com.example.managestore.service.manageEmployee.EmployeeService;
 import com.example.managestore.service.manageEmployee.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -97,5 +96,16 @@ public class EmployeeController {
                                                                @RequestBody Grid grid) {
         System.out.println("CALLED API");
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.filterEmployee(grid, page, size, email, startDateCreated, endDateCreated, enable));
+    }
+    @GetMapping("/filter-employee-spec")
+    public ResponseEntity<Page<EmployeeDto>> filterEmployeeALLSpec(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(value = "size", defaultValue = "10") int size,
+                                                               @RequestParam(value = "email", required = false) String email,
+                                                               @RequestParam(value = "startDateCreated", required = false) LocalDateTime startDateCreated,
+                                                               @RequestParam(value = "endDateCreated", required = false) LocalDateTime endDateCreated,
+                                                               @RequestParam(value = "enable", required = false, defaultValue = "true") String enable,
+                                                               @RequestBody Grid grid) {
+        System.out.println("CALLED API");
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.filterEmployeeSpecification(grid, page, size, email, startDateCreated, endDateCreated, enable));
     }
 }

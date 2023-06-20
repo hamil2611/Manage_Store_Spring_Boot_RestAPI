@@ -5,12 +5,12 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ManageStoreTest
+    url: jdbc:postgresql://localhost:5432/mini-supermarket
     username: postgres
     password: 123456789
   jpa:
     show-sql: true
-  #liquibase Config
+#liquibase Config
   liquibase:
     change-log: db/master.xml
     enabled: true

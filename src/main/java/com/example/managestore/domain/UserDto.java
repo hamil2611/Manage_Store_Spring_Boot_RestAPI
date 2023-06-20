@@ -1,4 +1,4 @@
-package com.example.managestore.entity.dto;
+package com.example.managestore.domain;
 
 import lombok.*;
 

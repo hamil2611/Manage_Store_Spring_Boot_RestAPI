@@ -1,15 +1,14 @@
 package com.example.managestore.service.manageEmployee;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.entity.employee.Employee;
-import com.example.managestore.entity.dto.EmployeeDto;
-import com.example.managestore.entity.employee.Shift;
+import com.example.managestore.domain.EmployeeDto;
 import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;
 import com.example.managestore.repository.manageEmployee.ShiftRepository;
+import com.example.managestore.specifications.SpecificationEmployee;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,14 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,15 +67,19 @@ public class EmployeeService {
         Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("asc")
                 ? Sort.by(grid.getGridName()).ascending()
                 : Sort.by(grid.getGridName()).descending());
+
         return employeeRepository.filterEmployee(email, startDateCreated, endDateCreated, convertToBoolean(enable), pageable)
-                .map(new Function<Employee, EmployeeDto>() {
-                    @Override
-                    public EmployeeDto apply(Employee employee) {
-                        return modelMapper.map(employee, EmployeeDto.class);
-                    }
-                });
+                .map(x -> modelMapper.map(x,EmployeeDto.class));
     }
 
+    public Page<EmployeeDto> filterEmployeeSpecification(Grid grid, int page, int size, String email, LocalDateTime startDateCreated, LocalDateTime endDateCreated, String enable){
+        Pageable pageable = PageRequest.of(page, size, grid.getSort().equals("asc")
+                ? Sort.by(grid.getGridName()).ascending()
+                : Sort.by(grid.getGridName()).descending());
+        Specification specification = SpecificationEmployee.filterEmployee("",email,convertToBoolean(enable));
+        return employeeRepository.findAll(specification,pageable)
+                .map(x -> modelMapper.map(x,EmployeeDto.class));
+    }
     private boolean convertToBoolean(String enable) {
         if (enable.equals("true"))
             return true;

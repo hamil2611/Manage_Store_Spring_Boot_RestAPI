@@ -1,7 +1,7 @@
 package com.example.managestore.controller;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.dto.CustomerDto;
+import com.example.managestore.domain.CustomerDto;
 import com.example.managestore.service.manageProduct.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

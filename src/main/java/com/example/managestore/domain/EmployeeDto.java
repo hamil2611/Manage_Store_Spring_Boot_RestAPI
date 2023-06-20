@@ -1,4 +1,4 @@
-package com.example.managestore.entity.dto;
+package com.example.managestore.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;

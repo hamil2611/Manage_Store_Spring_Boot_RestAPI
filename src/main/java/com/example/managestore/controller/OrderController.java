@@ -1,6 +1,6 @@
 package com.example.managestore.controller;
 
-import com.example.managestore.entity.dto.OrderItemDto;
+import com.example.managestore.domain.OrderItemDto;
 import com.example.managestore.entity.order.Orders;
 import com.example.managestore.service.manageProduct.OrderService;
 import jakarta.validation.Valid;

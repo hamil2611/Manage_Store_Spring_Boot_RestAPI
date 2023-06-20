@@ -1,10 +1,9 @@
 package com.example.managestore.service.manageEmployee;
 
-import com.example.managestore.entity.dto.ShiftDto;
+import com.example.managestore.domain.ShiftDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.entity.employee.Shift;
 import com.example.managestore.enums.Constants;
-import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;

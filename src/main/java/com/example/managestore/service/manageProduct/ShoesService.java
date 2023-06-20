@@ -1,10 +1,8 @@
 package com.example.managestore.service.manageProduct;
 
-import com.example.managestore.entity.dto.ClothesItemDto;
-import com.example.managestore.entity.dto.ShoesDto;
-import com.example.managestore.entity.dto.ShoesItemDto;
+import com.example.managestore.domain.ShoesDto;
+import com.example.managestore.domain.ShoesItemDto;
 import com.example.managestore.entity.product.shoes.Shoes;
-import com.example.managestore.entity.product.shoes.ShoesItem;
 import com.example.managestore.enums.Constants;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;

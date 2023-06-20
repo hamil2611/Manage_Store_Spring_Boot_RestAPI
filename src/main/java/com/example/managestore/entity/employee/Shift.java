@@ -1,7 +1,6 @@
 package com.example.managestore.entity.employee;
 
-import com.example.managestore.entity.bases.BaseEntity;
-import com.example.managestore.entity.dto.ShiftDto;
+import com.example.managestore.domain.ShiftDto;
 import jakarta.persistence.*;
 import lombok.*;
 
