@@ -10,12 +10,15 @@
             </column>
             <column name="username" type="varchar"/>
             <column name="password" type="varchar"/>
-            <column name="employee_id" type="bigint"/>
+            <column name="employee_id" type="bigint" >
+                <constraints nullable="false"></constraints>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="user-credential"
                                  baseColumnNames="employee_id"
                                  constraintName="fk_employee_id"
                                  referencedTableName="employee"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+        />
     </changeSet>
 </databaseChangeLog>

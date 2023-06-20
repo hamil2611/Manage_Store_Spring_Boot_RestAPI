@@ -1,22 +1,16 @@
 package com.example.managestore.controller;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.Role;
-import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.employee.Role;
+import com.example.managestore.entity.employee.UserCredential;
 import com.example.managestore.entity.dto.UserDto;
-import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.service.manageEmployee.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,11 +1,9 @@
 package com.example.managestore.entity.employee;
 
 import com.example.managestore.entity.bases.BaseEntity;
+import com.example.managestore.entity.dto.ShiftDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -16,6 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Shift{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +30,21 @@ public class Shift{
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
     @Column(name = "number_of_hours")
-    private int numberOfHours;
+    private float numberOfHours;
 
     @ManyToMany(mappedBy = "shifts", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Employee> employees;
 
+    public ShiftDto toDto(){
+        return ShiftDto.builder()
+                .id(this.getId())
+                .nameShift(this.nameShift)
+                .timeShift(this.getTimeShift().toLocalTime())
+                .dateShift(this.getTimeShift().toLocalDate())
+                .numberOfHours(this.getNumberOfHours())
+                .note(this.getNote())
+                .employees(this.employees)
+                .build();
+
+    }
 }

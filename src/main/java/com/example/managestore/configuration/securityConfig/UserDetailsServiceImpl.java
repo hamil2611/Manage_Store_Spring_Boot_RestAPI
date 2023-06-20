@@ -1,7 +1,7 @@
 package com.example.managestore.configuration.securityConfig;
 
-import com.example.managestore.entity.Role;
-import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.employee.Role;
+import com.example.managestore.entity.employee.UserCredential;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.UserCredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;

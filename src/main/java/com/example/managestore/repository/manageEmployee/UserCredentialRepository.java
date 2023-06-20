@@ -1,6 +1,6 @@
 package com.example.managestore.repository.manageEmployee;
 
-import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.employee.UserCredential;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

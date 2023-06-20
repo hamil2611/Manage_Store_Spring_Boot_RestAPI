@@ -72,7 +72,9 @@ public class OrderService {
             totalProduct += oi.getQuantity();
         }
         try {
-            Customer customerInserted = customerRepository.save(orderItemDto.getCustomer());
+            Customer customer = orderItemDto.getCustomer();
+            customer.setCreatedDate(LocalDateTime.now());
+            Customer customerInserted = customerRepository.save(customer);
             order.setCreatedDate(LocalDateTime.now());
             order.setStatus(OrderStatus.UNPAID);
             order.setTotalPrice(totalPrice);

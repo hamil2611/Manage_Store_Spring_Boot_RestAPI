@@ -1,8 +1,8 @@
 package com.example.managestore.service.manageEmployee;
 
 import com.example.managestore.domain.Grid;
-import com.example.managestore.entity.Role;
-import com.example.managestore.entity.UserCredential;
+import com.example.managestore.entity.employee.Role;
+import com.example.managestore.entity.employee.UserCredential;
 import com.example.managestore.entity.dto.UserDto;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.enums.Constants;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -158,7 +157,7 @@ public class UserService {
         }
     }
 
-    @PreAuthorize("hasAnyRole('EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('OWNER')")
     public Page<UserDto> getAllInfoUserOfRoleId(Long roleId, int page, int size) {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> {

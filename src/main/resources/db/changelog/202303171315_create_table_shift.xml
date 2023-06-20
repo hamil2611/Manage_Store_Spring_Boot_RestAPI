@@ -3,7 +3,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet id="010320231721" author="ngdinhan">
+    <changeSet id="010320231723" author="ngdinhan">
         <createTable tableName="shift">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -11,7 +11,7 @@
             <column name="name_shift" type="varchar"/>
             <column name="time_shift" type="timestamp"/>
             <column name="note" type="varchar"/>
-
+            <column name="number_of_hours" type="float"/>
             <column name="created_date" type="timestamp"/>
             <column name="last_updated" type="timestamp"/>
         </createTable>

@@ -4,6 +4,7 @@ import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.dto.EmployeeDto;
 import com.example.managestore.entity.dto.ShiftDto;
 import com.example.managestore.service.manageEmployee.EmployeeService;
+import com.example.managestore.service.manageEmployee.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final ScheduleService scheduleService;
 
     @PostMapping("/insert")
     public ResponseEntity<EmployeeDto> insertEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
@@ -63,18 +65,18 @@ public class EmployeeController {
     @PostMapping("/choose-shift")
     public ResponseEntity<List<ShiftDto>> chooseShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
                                                                  @RequestParam(value = "shiftId") Long shiftId) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.chooseShift(employeeId, shiftId));
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.chooseShift(employeeId, shiftId));
     }
 
     @PostMapping("/cancel-shift")
     public ResponseEntity<List<ShiftDto>> cancelShiftForEmployee(@RequestParam(value = "employeeId") Long employeeId,
                                                                  @RequestParam(value = "shiftId") Long shiftId) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.cancelShift(employeeId, shiftId));
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.cancelShift(employeeId, shiftId));
     }
 
     @GetMapping("/all-shift/{employeeId}")
     public ResponseEntity<List<ShiftDto>> getShiftOfEmployee(@PathVariable Long employeeId) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllShiftOfEmployee(employeeId));
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllShiftOfEmployee(employeeId));
     }
 
     @GetMapping("/filter-shift")
@@ -82,7 +84,7 @@ public class EmployeeController {
                                                       @RequestParam(value = "startTime", required = false) LocalDateTime startTime,
                                                       @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
                                                       @RequestParam(value = "isInTime", required = false) boolean isInTime) {
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getShiftForTime(employeeId, startTime, endTime, isInTime));
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getShiftForTime(employeeId, startTime, endTime, isInTime));
     }
 
     @GetMapping("/filter-employee")

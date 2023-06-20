@@ -3,10 +3,7 @@ package com.example.managestore.entity.product.shoes;
 
 import com.example.managestore.entity.product.Category;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "shoes")
@@ -14,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Shoes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

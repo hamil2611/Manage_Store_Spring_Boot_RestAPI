@@ -1,6 +1,5 @@
-package com.example.managestore.entity;
+package com.example.managestore.entity.employee;
 
-import com.example.managestore.entity.employee.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

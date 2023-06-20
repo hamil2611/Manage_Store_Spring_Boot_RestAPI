@@ -1,9 +1,8 @@
-package com.example.managestore.entity;
+package com.example.managestore.entity.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -12,6 +11,9 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "role")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
