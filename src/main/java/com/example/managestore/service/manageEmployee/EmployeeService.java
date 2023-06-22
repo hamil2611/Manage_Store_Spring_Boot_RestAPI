@@ -3,7 +3,7 @@ package com.example.managestore.service.manageEmployee;
 import com.example.managestore.domain.Grid;
 import com.example.managestore.entity.employee.Employee;
 import com.example.managestore.domain.EmployeeDto;
-import com.example.managestore.enums.Constants;
+import com.example.managestore.utils.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageEmployee.EmployeeRepository;

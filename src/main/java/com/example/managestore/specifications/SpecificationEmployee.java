@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Boolean;
+
 public class SpecificationEmployee {
     public static Specification<Employee> filterEmployee(String name, String email, boolean enable) {
         return (root, query, criteriaBuilder) -> {
@@ -16,7 +16,7 @@ public class SpecificationEmployee {
                 predicates.add(criteriaBuilder.like(root.get("firstName"), "%" + name + "%"));
             if (!StringUtils.isBlank(email))
                 predicates.add(criteriaBuilder.like(root.get("email"), "%" + email + "%"));
-            if(enable)
+            if (enable)
                 predicates.add(criteriaBuilder.isTrue(root.get("enable")));
             else
                 predicates.add(criteriaBuilder.isFalse(root.get("enable")));

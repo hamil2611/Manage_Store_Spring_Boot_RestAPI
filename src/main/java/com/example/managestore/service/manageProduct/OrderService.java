@@ -6,7 +6,7 @@ import com.example.managestore.domain.OrderItemDto;
 import com.example.managestore.entity.order.*;
 import com.example.managestore.entity.product.clothes.ClothesItem;
 import com.example.managestore.entity.product.shoes.ShoesItem;
-import com.example.managestore.enums.Constants;
+import com.example.managestore.utils.Constants;
 import com.example.managestore.enums.OrderStatus;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;

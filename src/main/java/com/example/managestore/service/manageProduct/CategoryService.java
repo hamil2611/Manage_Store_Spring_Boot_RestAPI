@@ -2,7 +2,7 @@ package com.example.managestore.service.manageProduct;
 
 import com.example.managestore.domain.CategoryDto;
 import com.example.managestore.entity.product.Category;
-import com.example.managestore.enums.Constants;
+import com.example.managestore.utils.Constants;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
 import com.example.managestore.repository.manageProduct.CategoryRepository;

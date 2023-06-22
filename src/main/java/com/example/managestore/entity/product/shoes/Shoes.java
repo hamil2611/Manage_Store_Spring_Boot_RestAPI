@@ -2,6 +2,7 @@ package com.example.managestore.entity.product.shoes;
 
 
 import com.example.managestore.entity.product.Category;
+import com.example.managestore.utils.ExcelColumn;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,22 +16,39 @@ import lombok.*;
 public class Shoes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ExcelColumn(name = "id")
     private Long id;
+
     @Column
+    @ExcelColumn(name = "name")
     private String name;
+
     @Column
+    @ExcelColumn(name = "type")
     private String type;
+
     @Column
+    @ExcelColumn(name = "code")
     private String code;
+
     @Column
+    @ExcelColumn(name = "color")
     private String color;
+
     @Column
+    @ExcelColumn(name = "description")
     private String description;
+
     @Column
+    @ExcelColumn(name = "size")
     private String size;
+
     @Column
+    @ExcelColumn(name = "brand")
     private String brand;
+
     @Column
+    @ExcelColumn(name = "price")
     private Float price;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "shoes")

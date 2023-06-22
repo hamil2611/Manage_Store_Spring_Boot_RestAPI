@@ -1,4 +1,4 @@
-package com.example.managestore.enums;
+package com.example.managestore.utils;
 
 public class Constants {
     public final static String UNABLE_SAVE_RECORD = "Unable save record";

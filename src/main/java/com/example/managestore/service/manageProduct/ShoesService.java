@@ -3,7 +3,7 @@ package com.example.managestore.service.manageProduct;
 import com.example.managestore.domain.ShoesDto;
 import com.example.managestore.domain.ShoesItemDto;
 import com.example.managestore.entity.product.shoes.Shoes;
-import com.example.managestore.enums.Constants;
+import com.example.managestore.utils.Constants;
 import com.example.managestore.exception.entityException.EntityExistedException;
 import com.example.managestore.exception.entityException.EntityNotFoundException;
 import com.example.managestore.exception.entityException.RepositoryAccessException;
