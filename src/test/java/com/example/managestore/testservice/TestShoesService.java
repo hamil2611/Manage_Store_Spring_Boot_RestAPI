@@ -1,8 +1,5 @@
 package com.example.managestore.testservice;
 
-import com.example.managestore.dataExcel.InitData;
-import com.example.managestore.domain.ShoesDto;
-import com.example.managestore.entity.product.Category;
 import com.example.managestore.entity.product.shoes.Shoes;
 import com.example.managestore.repository.manageProduct.ShoesItemRepository;
 import com.example.managestore.repository.manageProduct.ShoesRepository;
@@ -19,16 +16,12 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -39,6 +39,7 @@ public class EntityExceptionController {
         return ResponseEntity.badRequest().body(new EntityResponseClient(APPLICATION,"NO ACTIVATED", exception.getMessage()));
     }
 
+    //Handle exception validation
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> exception(MethodArgumentNotValidException exception){
         Map<String,String> errors = new HashMap<>();

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
     private static final String SECRET_KEY = "123456789";
-    private static final long EXPIRE_TIME = 86400000000L;
+    private static final long EXPIRE_TIME = 36000000L;
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class.getName());
 
     public String generateToken(Authentication authentication) {
@@ -31,7 +31,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("ADMIN", authorities)
-                .setExpiration(new Date(new Date().getTime() + 36000000))
+                .setExpiration(new Date(new Date().getTime() + EXPIRE_TIME))
                 .signWith(SignatureAlgorithm.HS512, "123456789")
                 .compact();
     }

@@ -24,12 +24,12 @@ public class EmployeeController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/insert")
-    public ResponseEntity<EmployeeDto> insertEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> insertEmployee( @Valid @RequestBody EmployeeDto employeeDto) {
         return ResponseEntity.ok().body(employeeService.insert(employeeDto));
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<Page<EmployeeDto>> getAllEmployee(@RequestBody Grid grid,
+    public ResponseEntity<Page<EmployeeDto>> getAllEmployee(@Valid @RequestBody Grid grid,
                                                             @RequestParam(value = "page" , defaultValue = "0") int page,
                                                             @RequestParam(value = "size", defaultValue = "10") int size) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAll(grid,page,size));
@@ -41,7 +41,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> updateEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.update(employeeDto));
     }
 
@@ -93,8 +93,7 @@ public class EmployeeController {
                                                                @RequestParam(value = "startDateCreated", required = false) LocalDateTime startDateCreated,
                                                                @RequestParam(value = "endDateCreated", required = false) LocalDateTime endDateCreated,
                                                                @RequestParam(value = "enable", required = false, defaultValue = "true") String enable,
-                                                               @RequestBody Grid grid) {
-        System.out.println("CALLED API");
+                                                               @Valid @RequestBody Grid grid) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.filterEmployee(grid, page, size, email, startDateCreated, endDateCreated, enable));
     }
     @GetMapping("/filter-employee-spec")
@@ -104,8 +103,7 @@ public class EmployeeController {
                                                                @RequestParam(value = "startDateCreated", required = false) LocalDateTime startDateCreated,
                                                                @RequestParam(value = "endDateCreated", required = false) LocalDateTime endDateCreated,
                                                                @RequestParam(value = "enable", required = false, defaultValue = "true") String enable,
-                                                               @RequestBody Grid grid) {
-        System.out.println("CALLED API");
+                                                               @Valid @RequestBody Grid grid) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.filterEmployeeSpecification(grid, page, size, email, startDateCreated, endDateCreated, enable));
     }
 }

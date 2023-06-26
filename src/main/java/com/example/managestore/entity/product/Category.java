@@ -3,7 +3,6 @@ package com.example.managestore.entity.product;
 import com.example.managestore.entity.product.clothes.Clothes;
 import com.example.managestore.entity.product.shoes.Shoes;
 import com.example.managestore.utils.ExcelColumn;
-import io.github.millij.poi.ss.model.annotations.SheetColumn;
 import jakarta.persistence.*;
 import lombok.*;
 

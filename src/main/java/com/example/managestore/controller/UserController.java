@@ -56,7 +56,7 @@ public class UserController {
     @GetMapping("/role")
     public ResponseEntity<Page<Role>> getAllRole(@RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "size", defaultValue = "10") int size,
-                                                 @RequestBody Grid grid) {
+                                                 @Valid @RequestBody Grid grid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllRole(page, size, grid));
     }
 
