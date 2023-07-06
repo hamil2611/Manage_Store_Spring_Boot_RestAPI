@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,8 +33,10 @@ public class UserService {
     private final UserCredentialRepository userCredentialRepository;
     private final RoleRepository roleRepository;
     private final EmployeeRepository employeeRepository;
-    private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
     public void authenticationUser(String username, String password) {
         UserCredential userCredential = userCredentialRepository.findByUsername(username).orElseThrow(() -> {
