@@ -34,8 +34,6 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     public void authenticationUser(String username, String password) {
